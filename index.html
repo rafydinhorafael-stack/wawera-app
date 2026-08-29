@@ -1348,10 +1348,141 @@ const pages = [
 
 
     document
-      .getElementById("authForm")
-      .addEventListener("submit", event => {
+   document
+  .getElementById("authForm")
+  .addEventListener("submit", async event => {
 
-        event.preventDefault();
+    event.preventDefault();
+
+    const name =
+      document
+        .getElementById("nameInput")
+        .value
+        .trim();
+
+    const email =
+      document
+        .getElementById("emailInput")
+        .value
+        .trim();
+
+    const password =
+      document
+        .getElementById("passwordInput")
+        .value;
+
+    const message =
+      document.getElementById("authMessage");
+
+    const submit =
+      document.getElementById("authSubmit");
+
+    if (!email || !password) {
+      message.textContent =
+        "Preenche o email e a palavra-passe.";
+
+      message.classList.remove("hidden");
+      return;
+    }
+
+    if (registerMode && !name) {
+      message.textContent =
+        "Escreve o teu nome.";
+
+      message.classList.remove("hidden");
+      return;
+    }
+
+    submit.disabled = true;
+    submit.textContent = registerMode
+      ? "A criar conta..."
+      : "A entrar...";
+
+    message.classList.add("hidden");
+
+    try {
+
+      const endpoint = registerMode
+        ? "/api/register"
+        : "/api/login";
+
+      const body = registerMode
+        ? {
+            name,
+            email,
+            password
+          }
+        : {
+            email,
+            password
+          };
+
+      const response = await fetch(
+        API_URL + endpoint,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(body)
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(
+          data.message ||
+          "Não foi possível concluir a operação."
+        );
+      }
+
+      localStorage.setItem(
+        "wawera_id",
+        data.user.id
+      );
+
+      localStorage.setItem(
+        "wawera_name",
+        data.user.name
+      );
+
+      localStorage.setItem(
+        "wawera_email",
+        data.user.email
+      );
+
+      updateProfileView();
+
+      message.textContent =
+        registerMode
+          ? "✅ Conta criada com sucesso!"
+          : "✅ Login efetuado com sucesso!";
+
+      message.classList.remove("hidden");
+
+      setTimeout(() => {
+        showPage("dashboard");
+      }, 600);
+
+    } catch (error) {
+
+      message.textContent =
+        "❌ " + error.message;
+
+      message.classList.remove("hidden");
+
+    } finally {
+
+      submit.disabled = false;
+
+      submit.textContent =
+        registerMode
+          ? "Criar conta"
+          : "Entrar";
+    }
+
+  });
 
 
         const name =
