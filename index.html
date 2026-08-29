@@ -14,6 +14,7 @@
       --text: #ffffff;
       --muted: #aeb7ca;
       --line: rgba(255,255,255,.10);
+      --danger: #ff7070;
     }
 
     * {
@@ -39,8 +40,8 @@
 
     .card {
       width: 100%;
-      max-width: 720px;
-      background: rgba(23,29,48,.97);
+      max-width: 520px;
+      background: rgba(23, 29, 48, .97);
       border: 1px solid var(--line);
       border-radius: 28px;
       padding: 32px 22px;
@@ -84,22 +85,21 @@
       color: var(--muted);
       font-size: 17px;
       line-height: 1.6;
-      max-width: 560px;
       margin: 0 auto;
     }
 
     .actions {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       gap: 12px;
-      flex-wrap: wrap;
       margin-top: 28px;
     }
 
     button {
+      width: 100%;
       border: 0;
       border-radius: 14px;
-      padding: 15px 22px;
+      padding: 15px 20px;
       font: inherit;
       font-weight: 800;
       cursor: pointer;
@@ -116,72 +116,86 @@
       border: 1px solid var(--line);
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
+    .form {
       margin-top: 24px;
     }
 
-    .feature {
-      padding: 22px 18px;
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 15px;
+      border-radius: 14px;
       border: 1px solid var(--line);
+      background: var(--card2);
+      color: #fff;
+      font: inherit;
+      outline: none;
+    }
+
+    .field input:focus {
+      border-color: rgba(255,255,255,.35);
+    }
+
+    .switch {
+      margin-top: 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .switch button {
+      width: auto;
+      padding: 0;
+      margin-left: 5px;
+      border: 0;
+      background: none;
+      color: #fff;
+    }
+
+    .message {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .profile-box {
+      margin-top: 24px;
+      padding: 20px;
       border-radius: 18px;
       background: var(--card2);
-      cursor: pointer;
-      transition: transform .15s ease, border-color .15s ease;
+      border: 1px solid var(--line);
     }
 
-    .feature:active {
-      transform: scale(.98);
-    }
-
-    .feature strong {
+    .profile-box strong {
       display: block;
-      font-size: 18px;
       margin-bottom: 7px;
     }
 
-    .feature span {
+    .profile-box span {
       color: var(--muted);
       font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .list {
-      display: grid;
-      gap: 12px;
-      margin-top: 24px;
-    }
-
-    .item {
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: var(--card2);
-    }
-
-    .item strong {
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    .item p {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.5;
     }
 
     .back {
       margin-top: 22px;
-      width: 100%;
     }
 
     @media (max-width: 520px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
       .card {
         padding: 30px 18px;
       }
@@ -191,7 +205,7 @@
 
 <body>
 
-  <!-- ECRÃ DE BOAS-VINDAS -->
+  <!-- BOAS-VINDAS -->
   <section id="welcome" class="screen">
     <div class="card">
 
@@ -214,6 +228,107 @@
   </section>
 
 
+  <!-- LOGIN / REGISTO -->
+  <section id="auth" class="screen hidden">
+    <div class="card">
+
+      <div class="logo">W!</div>
+
+      <h2 id="authTitle">Entrar</h2>
+
+      <p class="lead" id="authDescription">
+        Entra na tua conta Wawera.
+      </p>
+
+      <form id="authForm" class="form">
+
+        <div class="field" id="nameField">
+          <label for="name">Nome</label>
+          <input
+            id="name"
+            type="text"
+            placeholder="O teu nome"
+            autocomplete="name"
+          >
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="teuemail@exemplo.com"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label for="password">Palavra-passe</label>
+          <input
+            id="password"
+            type="password"
+            placeholder="A tua palavra-passe"
+            autocomplete="current-password"
+            required
+          >
+        </div>
+
+        <button class="primary" type="submit" id="submitBtn">
+          Entrar
+        </button>
+
+      </form>
+
+      <div id="authMessage" class="message hidden"></div>
+
+      <div class="switch">
+        <span id="switchText">Ainda não tens conta?</span>
+
+        <button type="button" id="switchBtn">
+          Criar conta
+        </button>
+      </div>
+
+      <button class="secondary back" onclick="showPage('welcome')">
+        Voltar
+      </button>
+
+    </div>
+  </section>
+
+
+  <!-- ÁREA DO UTILIZADOR -->
+  <section id="dashboard" class="screen hidden">
+    <div class="card">
+
+      <div class="logo">W!</div>
+
+      <h2>Olá, <span id="userName">utilizador</span> 👋🏾</h2>
+
+      <p class="lead">
+        Entraste na tua área pessoal da Wawera.
+      </p>
+
+      <div class="profile-box">
+        <strong>Email</strong>
+        <span id="userEmail"></span>
+      </div>
+
+      <div class="actions">
+        <button class="primary" onclick="showPage('home')">
+          Continuar
+        </button>
+
+        <button class="secondary" id="logoutBtn">
+          Sair da conta
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+
   <!-- MENU PRINCIPAL -->
   <section id="home" class="screen hidden">
     <div class="card">
@@ -226,41 +341,29 @@
         Escolhe uma área para continuar.
       </p>
 
-      <div class="grid">
+      <div class="actions">
 
-        <div class="feature" data-page="explorar">
-          <strong>🔎 Explorar</strong>
-          <span>
-            Descobre conteúdos e possibilidades dentro da Wawera.
-          </span>
-        </div>
+        <button class="primary" onclick="showPage('explorar')">
+          🔎 Explorar
+        </button>
 
-        <div class="feature" data-page="comunidade">
-          <strong>👥 Comunidade</strong>
-          <span>
-            Conhece pessoas e partilha ideias.
-          </span>
-        </div>
+        <button class="primary" onclick="showPage('comunidade')">
+          👥 Comunidade
+        </button>
 
-        <div class="feature" data-page="oportunidades">
-          <strong>🚀 Oportunidades</strong>
-          <span>
-            Descobre projetos, serviços e oportunidades.
-          </span>
-        </div>
+        <button class="primary" onclick="showPage('oportunidades')">
+          🚀 Oportunidades
+        </button>
 
-        <div class="feature" data-page="perfil">
-          <strong>👤 Perfil</strong>
-          <span>
-            Consulta e personaliza o teu perfil.
-          </span>
-        </div>
+        <button class="primary" onclick="showPage('perfil')">
+          👤 Perfil
+        </button>
+
+        <button class="secondary" onclick="showPage('welcome')">
+          Voltar
+        </button>
 
       </div>
-
-      <button class="secondary back" id="logoutBtn">
-        Sair
-      </button>
 
     </div>
   </section>
@@ -275,26 +378,14 @@
       <h2>Explorar</h2>
 
       <p class="lead">
-        Aqui vamos mostrar conteúdos, serviços e novidades da Wawera.
+        Descobre conteúdos, novidades e pessoas na Wawera.
       </p>
 
-      <div class="list">
-
-        <div class="item">
-          <strong>Conteúdos em destaque</strong>
-          <p>Descobre o que está a chamar atenção na plataforma.</p>
-        </div>
-
-        <div class="item">
-          <strong>Novidades</strong>
-          <p>Consulta as novidades e atualizações da Wawera.</p>
-        </div>
-
-        <div class="item">
-          <strong>Descobrir pessoas</strong>
-          <p>Encontra novos utilizadores e novas ligações.</p>
-        </div>
-
+      <div class="profile-box">
+        <strong>Em breve</strong>
+        <span>
+          Vamos adicionar conteúdos reais nesta área.
+        </span>
       </div>
 
       <button class="secondary back" onclick="showPage('home')">
@@ -314,26 +405,14 @@
       <h2>Comunidade</h2>
 
       <p class="lead">
-        Um espaço para pessoas comunicarem, partilharem ideias e criarem conexões.
+        Partilha ideias e conecta-te com outras pessoas.
       </p>
 
-      <div class="list">
-
-        <div class="item">
-          <strong>Publicações</strong>
-          <p>Partilha pensamentos, fotos, ideias e novidades.</p>
-        </div>
-
-        <div class="item">
-          <strong>Conversas</strong>
-          <p>Interage com outras pessoas da comunidade.</p>
-        </div>
-
-        <div class="item">
-          <strong>Grupos</strong>
-          <p>No futuro poderemos criar grupos e comunidades temáticas.</p>
-        </div>
-
+      <div class="profile-box">
+        <strong>Publicações</strong>
+        <span>
+          Em breve poderás publicar e interagir com a comunidade.
+        </span>
       </div>
 
       <button class="secondary back" onclick="showPage('home')">
@@ -353,26 +432,14 @@
       <h2>Oportunidades</h2>
 
       <p class="lead">
-        Uma área para encontrar oportunidades, projetos, serviços e muito mais.
+        Encontra empregos, projetos e serviços.
       </p>
 
-      <div class="list">
-
-        <div class="item">
-          <strong>Empregos</strong>
-          <p>Descobre vagas e oportunidades profissionais.</p>
-        </div>
-
-        <div class="item">
-          <strong>Projetos</strong>
-          <p>Encontra pessoas e projetos para colaborar.</p>
-        </div>
-
-        <div class="item">
-          <strong>Serviços</strong>
-          <p>Descobre serviços disponibilizados pela comunidade.</p>
-        </div>
-
+      <div class="profile-box">
+        <strong>Oportunidades profissionais</strong>
+        <span>
+          Esta área poderá receber vagas e projetos.
+        </span>
       </div>
 
       <button class="secondary back" onclick="showPage('home')">
@@ -392,26 +459,17 @@
       <h2>O meu perfil</h2>
 
       <p class="lead">
-        Esta será a tua área pessoal dentro da Wawera.
+        Aqui ficam os dados da tua conta.
       </p>
 
-      <div class="list">
+      <div class="profile-box">
+        <strong>Nome</strong>
+        <span id="profileName">Ainda não definido</span>
+      </div>
 
-        <div class="item">
-          <strong>Nome</strong>
-          <p>O teu nome aparecerá aqui.</p>
-        </div>
-
-        <div class="item">
-          <strong>Sobre mim</strong>
-          <p>A tua descrição pessoal será adicionada aqui.</p>
-        </div>
-
-        <div class="item">
-          <strong>Definições</strong>
-          <p>Privacidade e outras opções do teu perfil.</p>
-        </div>
-
+      <div class="profile-box">
+        <strong>Email</strong>
+        <span id="profileEmail">Ainda não definido</span>
       </div>
 
       <button class="secondary back" onclick="showPage('home')">
@@ -426,12 +484,16 @@
 
     const pages = [
       "welcome",
+      "auth",
+      "dashboard",
       "home",
       "explorar",
       "comunidade",
       "oportunidades",
       "perfil"
     ];
+
+    let registerMode = false;
 
     function showPage(page) {
 
@@ -448,27 +510,192 @@
     }
 
 
+    function updateAuthMode() {
+
+      const title = document.getElementById("authTitle");
+      const description = document.getElementById("authDescription");
+      const nameField = document.getElementById("nameField");
+      const nameInput = document.getElementById("name");
+      const submitBtn = document.getElementById("submitBtn");
+      const switchText = document.getElementById("switchText");
+      const switchBtn = document.getElementById("switchBtn");
+      const password = document.getElementById("password");
+
+      document.getElementById("authMessage").classList.add("hidden");
+
+      if (registerMode) {
+
+        title.textContent = "Criar conta";
+
+        description.textContent =
+          "Cria a tua conta Wawera.";
+
+        nameField.classList.remove("hidden");
+
+        nameInput.required = true;
+
+        submitBtn.textContent = "Criar conta";
+
+        switchText.textContent =
+          "Já tens uma conta?";
+
+        switchBtn.textContent =
+          "Entrar";
+
+        password.autocomplete =
+          "new-password";
+
+      } else {
+
+        title.textContent = "Entrar";
+
+        description.textContent =
+          "Entra na tua conta Wawera.";
+
+        nameField.classList.add("hidden");
+
+        nameInput.required = false;
+
+        submitBtn.textContent = "Entrar";
+
+        switchText.textContent =
+          "Ainda não tens conta?";
+
+        switchBtn.textContent =
+          "Criar conta";
+
+        password.autocomplete =
+          "current-password";
+      }
+    }
+
+
     document.getElementById("startBtn").addEventListener("click", () => {
-      showPage("home");
+
+      registerMode = false;
+
+      updateAuthMode();
+
+      showPage("auth");
+
+    });
+
+
+    document.getElementById("switchBtn").addEventListener("click", () => {
+
+      registerMode = !registerMode;
+
+      updateAuthMode();
+
+    });
+
+
+    document.getElementById("authForm").addEventListener("submit", (event) => {
+
+      event.preventDefault();
+
+      const name =
+        document.getElementById("name").value.trim();
+
+      const email =
+        document.getElementById("email").value.trim();
+
+      const password =
+        document.getElementById("password").value;
+
+      const message =
+        document.getElementById("authMessage");
+
+
+      if (!email || !password) {
+
+        message.textContent =
+          "Preenche o email e a palavra-passe.";
+
+        message.classList.remove("hidden");
+
+        return;
+      }
+
+
+      if (registerMode && !name) {
+
+        message.textContent =
+          "Escreve o teu nome para criar a conta.";
+
+        message.classList.remove("hidden");
+
+        return;
+      }
+
+
+      const finalName =
+        registerMode ? name : (localStorage.getItem("wawera_name") || "Utilizador");
+
+
+      localStorage.setItem("wawera_name", finalName);
+
+      localStorage.setItem("wawera_email", email);
+
+
+      document.getElementById("userName").textContent =
+        finalName;
+
+      document.getElementById("userEmail").textContent =
+        email;
+
+      document.getElementById("profileName").textContent =
+        finalName;
+
+      document.getElementById("profileEmail").textContent =
+        email;
+
+
+      message.textContent =
+        registerMode
+          ? "Conta criada nesta demonstração."
+          : "Login efetuado nesta demonstração.";
+
+      message.classList.remove("hidden");
+
+
+      setTimeout(() => {
+        showPage("dashboard");
+      }, 700);
+
     });
 
 
     document.getElementById("logoutBtn").addEventListener("click", () => {
+
       showPage("welcome");
-    });
-
-
-    document.querySelectorAll(".feature").forEach(item => {
-
-      item.addEventListener("click", () => {
-
-        const page = item.dataset.page;
-
-        showPage(page);
-
-      });
 
     });
+
+
+    const savedName =
+      localStorage.getItem("wawera_name");
+
+    const savedEmail =
+      localStorage.getItem("wawera_email");
+
+
+    if (savedName) {
+      document.getElementById("userName").textContent =
+        savedName;
+
+      document.getElementById("profileName").textContent =
+        savedName;
+    }
+
+
+    if (savedEmail) {
+      document.getElementById("userEmail").textContent =
+        savedEmail;
+
+      document.getElementById("profileEmail").textContent =
+        savedEmail;
+    }
 
   </script>
 
