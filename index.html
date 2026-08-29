@@ -1081,7 +1081,27 @@
 
   <script>
 
-    const pages = [
+    const API_URL = "https://wawera-app.onrender.com";
+
+async function checkBackend() {
+  try {
+    const response = await fetch(API_URL + "/api/health");
+
+    if (!response.ok) {
+      throw new Error("Backend indisponível");
+    }
+
+    const data = await response.json();
+
+    console.log("Wawera backend:", data);
+  } catch (error) {
+    console.error("Erro ao ligar ao backend:", error);
+  }
+}
+
+checkBackend();
+
+const pages = [
       "welcome",
       "auth",
       "dashboard",
