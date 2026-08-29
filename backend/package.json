@@ -1,0 +1,12 @@
+{
+  "name": "wawera-backend",
+  "version": "1.0.0",
+  "description": "Backend da aplicação Wawera",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "20.x"
+  }
+}
