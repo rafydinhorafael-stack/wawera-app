@@ -15,7 +15,6 @@
       --muted: #aeb7ca;
       --line: rgba(255,255,255,.10);
       --success: #79e0a1;
-      --danger: #ff8585;
     }
 
     * {
@@ -33,19 +32,19 @@
 
     .screen {
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       padding: 24px;
+      display: flex;
+      justify-content: center;
     }
 
     .card {
       width: 100%;
-      max-width: 560px;
+      max-width: 600px;
+      margin: auto;
       background: rgba(23,29,48,.97);
       border: 1px solid var(--line);
       border-radius: 28px;
-      padding: 30px 20px;
+      padding: 28px 18px;
       box-shadow: 0 25px 80px rgba(0,0,0,.35);
     }
 
@@ -97,7 +96,7 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      margin-top: 26px;
+      margin-top: 24px;
     }
 
     button {
@@ -122,9 +121,9 @@
     }
 
     .danger {
-      background: rgba(255,133,133,.08);
+      background: rgba(255,120,120,.08);
       color: #fff;
-      border: 1px solid rgba(255,133,133,.20);
+      border: 1px solid rgba(255,120,120,.18);
     }
 
     .form {
@@ -143,7 +142,8 @@
     }
 
     .field input,
-    .field textarea {
+    .field textarea,
+    .field select {
       width: 100%;
       padding: 15px;
       border-radius: 14px;
@@ -155,33 +155,113 @@
     }
 
     .field textarea {
-      min-height: 120px;
+      min-height: 130px;
       resize: vertical;
     }
 
     .field input:focus,
-    .field textarea:focus {
+    .field textarea:focus,
+    .field select:focus {
       border-color: rgba(255,255,255,.35);
     }
 
-    .switch {
-      margin-top: 20px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 14px;
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
     }
 
-    .switch button {
-      width: auto;
-      padding: 0;
-      margin-left: 5px;
-      background: none;
+    .mini-logo {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: #fff;
+      color: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    .topbar-text {
+      flex: 1;
+    }
+
+    .topbar-text strong {
+      display: block;
+    }
+
+    .topbar-text span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .post {
+      margin-top: 16px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--card2);
+    }
+
+    .post-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .post-author strong {
+      display: block;
+    }
+
+    .post-author span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .category {
+      font-size: 12px;
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .post-content {
       color: #fff;
-      border: 0;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .post-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .post-actions button {
+      width: auto;
+      padding: 10px 14px;
+      font-size: 13px;
+    }
+
+    .empty {
+      margin-top: 20px;
+      padding: 24px 18px;
+      text-align: center;
+      border: 1px dashed var(--line);
+      border-radius: 18px;
+      color: var(--muted);
     }
 
     .message {
-      margin-top: 16px;
+      margin-top: 14px;
       padding: 12px;
       border-radius: 12px;
       background: rgba(255,255,255,.05);
@@ -191,47 +271,20 @@
       line-height: 1.5;
     }
 
-    .avatar-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      margin: 20px 0 24px;
-    }
-
-    .avatar {
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      background: var(--card2);
-      border: 2px solid var(--line);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      font-size: 44px;
-      font-weight: 900;
-    }
-
-    .avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .file-label {
-      display: inline-block;
-      padding: 11px 16px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      color: #fff;
-      font-weight: 700;
+    .switch {
+      margin-top: 18px;
+      text-align: center;
+      color: var(--muted);
       font-size: 14px;
-      cursor: pointer;
     }
 
-    .file-input {
-      display: none;
+    .switch button {
+      width: auto;
+      background: none;
+      border: 0;
+      color: #fff;
+      padding: 0;
+      margin-left: 5px;
     }
 
     .profile-box {
@@ -248,106 +301,42 @@
       line-height: 1.5;
     }
 
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 20px;
+    .small {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      text-align: center;
+      margin-top: 12px;
     }
 
-    .topbar .mini-logo {
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
-      background: #fff;
-      color: var(--bg);
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin: 20px auto;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
+      background: var(--card2);
+      border: 2px solid var(--line);
+      font-size: 36px;
       font-weight: 900;
     }
 
-    .welcome-user {
-      flex: 1;
-    }
-
-    .welcome-user strong {
-      display: block;
-    }
-
-    .welcome-user span {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .menu {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 24px;
-    }
-
-    .menu button {
-      text-align: left;
-      min-height: 92px;
-      background: var(--card2);
-      color: #fff;
-      border: 1px solid var(--line);
-      padding: 18px;
-    }
-
-    .menu button strong {
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    .menu button span {
-      display: block;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.4;
-      font-weight: 500;
-    }
-
-    .list {
-      display: grid;
-      gap: 12px;
-      margin-top: 22px;
-    }
-
-    .item {
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: var(--card2);
-    }
-
-    .item p {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .back {
-      margin-top: 22px;
-    }
-
-    .small {
-      font-size: 13px;
-      color: var(--muted);
-      text-align: center;
-      margin-top: 12px;
-      line-height: 1.5;
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     @media (max-width: 520px) {
-      .menu {
-        grid-template-columns: 1fr;
+      .screen {
+        padding: 15px;
       }
 
       .card {
-        padding: 28px 17px;
+        padding: 24px 16px;
       }
     }
   </style>
@@ -355,7 +344,7 @@
 
 <body>
 
-  <!-- BOAS-VINDAS -->
+  <!-- WELCOME -->
   <section id="welcome" class="screen">
     <div class="card">
 
@@ -439,29 +428,36 @@
         </button>
       </div>
 
-      <button class="secondary back" onclick="showPage('welcome')">
+      <button class="secondary" style="margin-top:20px" onclick="showPage('welcome')">
         Voltar
       </button>
 
       <p class="small">
-        Nesta versão, a conta é apenas uma demonstração local.
+        Nesta versão, a conta é uma demonstração local.
       </p>
 
     </div>
   </section>
 
 
-  <!-- PAINEL -->
+  <!-- DASHBOARD -->
   <section id="dashboard" class="screen hidden">
     <div class="card">
 
       <div class="topbar">
-        <div class="mini-logo">W!</div>
 
-        <div class="welcome-user">
-          <strong>Olá, <span id="dashboardName">Utilizador</span> 👋🏾</strong>
+        <div class="mini-logo">
+          W!
+        </div>
+
+        <div class="topbar-text">
+          <strong>
+            Olá, <span id="dashboardName">Utilizador</span> 👋🏾
+          </strong>
+
           <span id="dashboardEmail"></span>
         </div>
+
       </div>
 
       <h2>Painel Wawera</h2>
@@ -470,33 +466,66 @@
         Escolhe uma área para continuar.
       </p>
 
-      <div class="menu">
+      <div class="actions">
 
-        <button onclick="showPage('explorar')">
-          <strong>🔎 Explorar</strong>
-          <span>Descobre conteúdos e novidades.</span>
+        <button class="primary" onclick="showPage('explorar')">
+          🔎 Explorar
         </button>
 
-        <button onclick="showPage('comunidade')">
-          <strong>👥 Comunidade</strong>
-          <span>Conecta-te com outras pessoas.</span>
+        <button class="primary" onclick="showPage('comunidade')">
+          👥 Comunidade
         </button>
 
-        <button onclick="showPage('oportunidades')">
-          <strong>🚀 Oportunidades</strong>
-          <span>Encontra vagas e projetos.</span>
+        <button class="primary" onclick="showPage('oportunidades')">
+          🚀 Oportunidades
         </button>
 
-        <button onclick="openProfile()">
-          <strong>👤 Perfil</strong>
-          <span>Edita os teus dados pessoais.</span>
+        <button class="primary" onclick="showProfile()">
+          👤 Perfil
+        </button>
+
+        <button class="danger" id="logoutBtn">
+          Sair da conta
         </button>
 
       </div>
 
-      <button class="danger back" id="logoutBtn">
-        Sair da conta
-      </button>
+    </div>
+  </section>
+
+
+  <!-- PERFIL -->
+  <section id="perfil" class="screen hidden">
+    <div class="card">
+
+      <div class="avatar" id="profileAvatar">
+        W!
+      </div>
+
+      <h2 id="profileName">
+        Utilizador
+      </h2>
+
+      <p class="lead" id="profileBio">
+        Ainda não adicionaste uma biografia.
+      </p>
+
+      <div class="profile-box">
+        <h3>Email</h3>
+        <span id="profileEmail"></span>
+      </div>
+
+      <div class="actions">
+
+        <button class="primary" onclick="showPage('editProfile')">
+          Editar perfil
+        </button>
+
+        <button class="secondary" onclick="showPage('dashboard')">
+          Voltar
+        </button>
+
+      </div>
 
     </div>
   </section>
@@ -509,26 +538,11 @@
       <h2>Editar perfil</h2>
 
       <p class="lead">
-        Personaliza a tua presença na Wawera.
+        Atualiza as informações do teu perfil.
       </p>
 
-      <div class="avatar-wrap">
-
-        <div class="avatar" id="avatarPreview">
-          W!
-        </div>
-
-        <label class="file-label" for="photoInput">
-          Escolher foto
-        </label>
-
-        <input
-          class="file-input"
-          id="photoInput"
-          type="file"
-          accept="image/*"
-        >
-
+      <div class="avatar" id="avatarPreview">
+        W!
       </div>
 
       <form id="profileForm" class="form">
@@ -544,59 +558,24 @@
         </div>
 
         <div class="field">
-          <label for="profileBioInput">Sobre mim</label>
+          <label for="profileBioInput">Biografia</label>
           <textarea
             id="profileBioInput"
-            placeholder="Escreve algo sobre ti..."
+            placeholder="Fala um pouco sobre ti..."
           ></textarea>
         </div>
 
         <button class="primary" type="submit">
-          Guardar perfil
+          Guardar alterações
         </button>
 
       </form>
 
       <div id="profileMessage" class="message hidden"></div>
 
-      <button class="secondary back" onclick="showPage('dashboard')">
+      <button class="secondary" style="margin-top:20px" onclick="showPage('perfil')">
         Cancelar
       </button>
-
-    </div>
-  </section>
-
-
-  <!-- PERFIL -->
-  <section id="perfil" class="screen hidden">
-    <div class="card">
-
-      <div class="avatar-wrap">
-        <div class="avatar" id="profileAvatar">
-          W!
-        </div>
-      </div>
-
-      <h2 id="profileDisplayName">Utilizador</h2>
-
-      <p class="lead" id="profileBioDisplay">
-        Ainda não adicionaste uma biografia.
-      </p>
-
-      <div class="profile-box">
-        <h3>Email</h3>
-        <span id="profileDisplayEmail"></span>
-      </div>
-
-      <div class="actions">
-        <button class="primary" onclick="openProfile()">
-          Editar perfil
-        </button>
-
-        <button class="secondary" onclick="showPage('dashboard')">
-          Voltar
-        </button>
-      </div>
 
     </div>
   </section>
@@ -614,32 +593,13 @@
         Descobre conteúdos e novidades da Wawera.
       </p>
 
-      <div class="list">
-
-        <div class="item">
-          <h3>Conteúdos em destaque</h3>
-          <p>
-            Aqui vamos mostrar aquilo que estiver a chamar atenção na plataforma.
-          </p>
+      <div class="post">
+        <div class="post-content">
+          Aqui vamos colocar conteúdos reais da plataforma.
         </div>
-
-        <div class="item">
-          <h3>Novidades</h3>
-          <p>
-            Notícias e atualizações da Wawera aparecerão aqui.
-          </p>
-        </div>
-
-        <div class="item">
-          <h3>Descobrir pessoas</h3>
-          <p>
-            Mais tarde poderás encontrar outros utilizadores.
-          </p>
-        </div>
-
       </div>
 
-      <button class="secondary back" onclick="showPage('dashboard')">
+      <button class="secondary" style="margin-top:20px" onclick="showPage('dashboard')">
         Voltar
       </button>
 
@@ -651,41 +611,78 @@
   <section id="comunidade" class="screen hidden">
     <div class="card">
 
-      <div class="logo">👥</div>
-
-      <h2>Comunidade</h2>
+      <h2>Comunidade 👥</h2>
 
       <p class="lead">
-        Um espaço para partilhar ideias e criar ligações.
+        Publica, partilha e conversa com outras pessoas.
       </p>
 
-      <div class="list">
+      <div class="actions">
 
-        <div class="item">
-          <h3>Publicações</h3>
-          <p>
-            No futuro poderás criar publicações com texto e imagens.
-          </p>
-        </div>
-
-        <div class="item">
-          <h3>Conversas</h3>
-          <p>
-            Poderás comunicar com outros utilizadores.
-          </p>
-        </div>
-
-        <div class="item">
-          <h3>Grupos</h3>
-          <p>
-            Poderemos criar grupos por interesses e temas.
-          </p>
-        </div>
+        <button class="primary" onclick="showPage('newPost')">
+          ✏️ Criar publicação
+        </button>
 
       </div>
 
-      <button class="secondary back" onclick="showPage('dashboard')">
-        Voltar
+      <div id="feed"></div>
+
+      <button class="secondary" style="margin-top:22px" onclick="showPage('dashboard')">
+        Voltar ao painel
+      </button>
+
+    </div>
+  </section>
+
+
+  <!-- NOVA PUBLICAÇÃO -->
+  <section id="newPost" class="screen hidden">
+    <div class="card">
+
+      <h2>Nova publicação</h2>
+
+      <p class="lead">
+        Partilha algo com a comunidade.
+      </p>
+
+      <form id="postForm" class="form">
+
+        <div class="field">
+          <label for="postCategory">
+            Categoria
+          </label>
+
+          <select id="postCategory">
+            <option value="Geral">Geral</option>
+            <option value="Ideias">Ideias</option>
+            <option value="Emprego">Emprego</option>
+            <option value="Negócios">Negócios</option>
+            <option value="Tecnologia">Tecnologia</option>
+            <option value="Entretenimento">Entretenimento</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="postText">
+            Publicação
+          </label>
+
+          <textarea
+            id="postText"
+            maxlength="1000"
+            placeholder="O que queres partilhar?"
+            required
+          ></textarea>
+        </div>
+
+        <button class="primary" type="submit">
+          Publicar
+        </button>
+
+      </form>
+
+      <button class="secondary" style="margin-top:20px" onclick="showPage('comunidade')">
+        Cancelar
       </button>
 
     </div>
@@ -701,35 +698,35 @@
       <h2>Oportunidades</h2>
 
       <p class="lead">
-        Encontra oportunidades profissionais e projetos.
+        Encontra empregos, projetos e serviços.
       </p>
 
       <div class="list">
 
-        <div class="item">
+        <div class="profile-box">
           <h3>Empregos</h3>
-          <p>
-            Em breve poderemos apresentar vagas de emprego.
-          </p>
+          <span>
+            Em breve poderemos apresentar vagas.
+          </span>
         </div>
 
-        <div class="item">
+        <div class="profile-box">
           <h3>Projetos</h3>
-          <p>
+          <span>
             Espaço para projetos e colaborações.
-          </p>
+          </span>
         </div>
 
-        <div class="item">
+        <div class="profile-box">
           <h3>Serviços</h3>
-          <p>
+          <span>
             Utilizadores poderão apresentar serviços.
-          </p>
+          </span>
         </div>
 
       </div>
 
-      <button class="secondary back" onclick="showPage('dashboard')">
+      <button class="secondary" style="margin-top:22px" onclick="showPage('dashboard')">
         Voltar
       </button>
 
@@ -743,12 +740,14 @@
       "welcome",
       "auth",
       "dashboard",
-      "editProfile",
       "perfil",
+      "editProfile",
       "explorar",
       "comunidade",
+      "newPost",
       "oportunidades"
     ];
+
 
     let registerMode = false;
 
@@ -756,15 +755,31 @@
     function showPage(page) {
 
       pages.forEach(id => {
-        document.getElementById(id).classList.add("hidden");
+
+        document
+          .getElementById(id)
+          .classList
+          .add("hidden");
+
       });
 
-      document.getElementById(page).classList.remove("hidden");
+
+      document
+        .getElementById(page)
+        .classList
+        .remove("hidden");
+
 
       window.scrollTo({
         top: 0,
         behavior: "smooth"
       });
+
+
+      if (page === "comunidade") {
+        renderFeed();
+      }
+
     }
 
 
@@ -794,25 +809,30 @@
       const password =
         document.getElementById("password");
 
-      const message =
-        document.getElementById("authMessage");
 
-
-      message.classList.add("hidden");
+      document
+        .getElementById("authMessage")
+        .classList
+        .add("hidden");
 
 
       if (registerMode) {
 
-        title.textContent = "Criar conta";
+        title.textContent =
+          "Criar conta";
 
         description.textContent =
           "Cria a tua conta Wawera.";
 
-        nameField.classList.remove("hidden");
+        nameField
+          .classList
+          .remove("hidden");
 
-        nameInput.required = true;
+        nameInput.required =
+          true;
 
-        submitBtn.textContent = "Criar conta";
+        submitBtn.textContent =
+          "Criar conta";
 
         switchText.textContent =
           "Já tens uma conta?";
@@ -825,14 +845,18 @@
 
       } else {
 
-        title.textContent = "Entrar";
+        title.textContent =
+          "Entrar";
 
         description.textContent =
           "Entra na tua conta Wawera.";
 
-        nameField.classList.add("hidden");
+        nameField
+          .classList
+          .add("hidden");
 
-        nameInput.required = false;
+        nameInput.required =
+          false;
 
         submitBtn.textContent =
           "Entrar";
@@ -846,6 +870,7 @@
         password.autocomplete =
           "current-password";
       }
+
     }
 
 
@@ -858,6 +883,7 @@
         updateAuthMode();
 
         showPage("auth");
+
       });
 
 
@@ -865,9 +891,11 @@
       .getElementById("switchBtn")
       .addEventListener("click", () => {
 
-        registerMode = !registerMode;
+        registerMode =
+          !registerMode;
 
         updateAuthMode();
+
       });
 
 
@@ -877,50 +905,71 @@
 
         event.preventDefault();
 
+
         const name =
-          document.getElementById("name").value.trim();
+          document
+            .getElementById("name")
+            .value
+            .trim();
+
 
         const email =
-          document.getElementById("email").value.trim();
+          document
+            .getElementById("email")
+            .value
+            .trim();
+
 
         const password =
-          document.getElementById("password").value;
+          document
+            .getElementById("password")
+            .value;
+
 
         const message =
           document.getElementById("authMessage");
 
 
-        if (!email || !password) {
+        if (
+          !email ||
+          !password
+        ) {
 
           message.textContent =
             "Preenche o email e a palavra-passe.";
 
-          message.classList.remove("hidden");
+          message
+            .classList
+            .remove("hidden");
 
           return;
         }
 
 
-        if (registerMode && !name) {
+        if (
+          registerMode &&
+          !name
+        ) {
 
           message.textContent =
             "Escreve o teu nome.";
 
-          message.classList.remove("hidden");
+          message
+            .classList
+            .remove("hidden");
 
           return;
         }
 
 
-        let finalName = name;
-
-
-        if (!registerMode) {
-
-          finalName =
-            localStorage.getItem("wawera_name") ||
-            "Utilizador";
-        }
+        const finalName =
+          registerMode
+            ? name
+            : (
+                localStorage
+                  .getItem("wawera_name") ||
+                "Utilizador"
+              );
 
 
         localStorage.setItem(
@@ -928,19 +977,14 @@
           finalName
         );
 
+
         localStorage.setItem(
           "wawera_email",
           email
         );
 
 
-        document
-          .getElementById("dashboardName")
-          .textContent = finalName;
-
-        document
-          .getElementById("dashboardEmail")
-          .textContent = email;
+        updateProfileView();
 
 
         message.textContent =
@@ -948,74 +992,107 @@
             ? "Conta criada nesta demonstração."
             : "Login efetuado nesta demonstração.";
 
-        message.classList.remove("hidden");
+
+        message
+          .classList
+          .remove("hidden");
 
 
         setTimeout(() => {
 
-          updateProfileView();
-
           showPage("dashboard");
 
-        }, 700);
+        }, 600);
 
       });
 
 
-    document
-      .getElementById("logoutBtn")
-      .addEventListener("click", () => {
+    function updateProfileView() {
 
-        showPage("welcome");
+      const name =
+        localStorage
+          .getItem("wawera_name") ||
+        "Utilizador";
 
-      });
+
+      const email =
+        localStorage
+          .getItem("wawera_email") ||
+        "";
 
 
-    function openProfile() {
+      const bio =
+        localStorage
+          .getItem("wawera_bio") ||
+        "";
 
-      const savedName =
-        localStorage.getItem("wawera_name") || "";
 
-      const savedBio =
-        localStorage.getItem("wawera_bio") || "";
-
-      const savedPhoto =
-        localStorage.getItem("wawera_photo");
+      const photo =
+        localStorage
+          .getItem("wawera_photo");
 
 
       document
-        .getElementById("profileNameInput")
-        .value = savedName;
+        .getElementById("dashboardName")
+        .textContent =
+        name;
+
 
       document
-        .getElementById("profileBioInput")
-        .value = savedBio;
+        .getElementById("dashboardEmail")
+        .textContent =
+        email;
+
+
+      document
+        .getElementById("profileName")
+        .textContent =
+        name;
+
+
+      document
+        .getElementById("profileEmail")
+        .textContent =
+        email;
+
+
+      document
+        .getElementById("profileBio")
+        .textContent =
+        bio ||
+        "Ainda não adicionaste uma biografia.";
 
 
       const avatar =
+        document.getElementById("profileAvatar");
+
+
+      const preview =
         document.getElementById("avatarPreview");
 
 
-      if (savedPhoto) {
+      if (photo) {
 
         avatar.innerHTML =
           '<img src="' +
-          savedPhoto +
+          photo +
+          '" alt="Foto de perfil">';
+
+
+        preview.innerHTML =
+          '<img src="' +
+          photo +
           '" alt="Foto de perfil">';
 
       } else {
 
         avatar.textContent =
-          getInitials(savedName || "Wawera");
+          getInitials(name);
+
+
+        preview.textContent =
+          getInitials(name);
       }
-
-
-      document
-        .getElementById("profileMessage")
-        .classList.add("hidden");
-
-
-      showPage("editProfile");
 
     }
 
@@ -1023,15 +1100,25 @@
     function getInitials(name) {
 
       const parts =
-        name.trim().split(/\s+/).filter(Boolean);
+        name
+          .trim()
+          .split(/\s+/)
+          .filter(Boolean);
 
-      if (parts.length === 0) {
+
+      if (!parts.length) {
         return "W!";
       }
 
+
       if (parts.length === 1) {
-        return parts[0].substring(0, 2).toUpperCase();
+
+        return parts[0]
+          .substring(0, 2)
+          .toUpperCase();
+
       }
+
 
       return (
         parts[0][0] +
@@ -1041,43 +1128,13 @@
     }
 
 
-    document
-      .getElementById("photoInput")
-      .addEventListener("change", event => {
+    function showProfile() {
 
-        const file =
-          event.target.files[0];
+      updateProfileView();
 
-        if (!file) return;
+      showPage("perfil");
 
-
-        if (!file.type.startsWith("image/")) {
-
-          alert("Escolhe uma imagem válida.");
-
-          return;
-        }
-
-
-        const reader =
-          new FileReader();
-
-
-        reader.onload = () => {
-
-          document
-            .getElementById("avatarPreview")
-            .innerHTML =
-              '<img src="' +
-              reader.result +
-              '" alt="Foto de perfil">';
-
-        };
-
-
-        reader.readAsDataURL(file);
-
-    });
+    }
 
 
     document
@@ -1093,6 +1150,7 @@
             .value
             .trim();
 
+
         const bio =
           document
             .getElementById("profileBioInput")
@@ -1107,9 +1165,11 @@
         if (!name) {
 
           message.textContent =
-            "O nome não pode ficar vazio.";
+            "O nome é obrigatório.";
 
-          message.classList.remove("hidden");
+          message
+            .classList
+            .remove("hidden");
 
           return;
         }
@@ -1120,32 +1180,19 @@
           name
         );
 
+
         localStorage.setItem(
           "wawera_bio",
           bio
         );
 
 
-        const avatar =
-          document.getElementById("avatarPreview");
-
-        const image =
-          avatar.querySelector("img");
-
-
-        if (image) {
-
-          localStorage.setItem(
-            "wawera_photo",
-            image.src
-          );
-        }
-
-
         message.textContent =
-          "Perfil guardado com sucesso.";
+          "Perfil atualizado com sucesso.";
 
-        message.classList.remove("hidden");
+        message
+          .classList
+          .remove("hidden");
 
 
         updateProfileView();
@@ -1160,70 +1207,281 @@
       });
 
 
-    function updateProfileView() {
+    document
+      .getElementById("logoutBtn")
+      .addEventListener("click", () => {
 
-      const name =
-        localStorage.getItem("wawera_name") ||
-        "Utilizador";
+        showPage("welcome");
 
-      const email =
-        localStorage.getItem("wawera_email") ||
-        "";
-
-      const bio =
-        localStorage.getItem("wawera_bio") ||
-        "";
-
-      const photo =
-        localStorage.getItem("wawera_photo");
+      });
 
 
-      document
-        .getElementById("dashboardName")
-        .textContent = name;
+    document
+      .getElementById("postForm")
+      .addEventListener("submit", event => {
 
-      document
-        .getElementById("dashboardEmail")
-        .textContent = email;
-
-      document
-        .getElementById("profileDisplayName")
-        .textContent = name;
-
-      document
-        .getElementById("profileDisplayEmail")
-        .textContent = email;
-
-      document
-        .getElementById("profileBioDisplay")
-        .textContent =
-          bio ||
-          "Ainda não adicionaste uma biografia.";
+        event.preventDefault();
 
 
-      const avatar =
-        document.getElementById("profileAvatar");
+        const text =
+          document
+            .getElementById("postText")
+            .value
+            .trim();
 
 
-      if (photo) {
+        const category =
+          document
+            .getElementById("postCategory")
+            .value;
 
-        avatar.innerHTML =
-          '<img src="' +
-          photo +
-          '" alt="Foto de perfil">';
 
-      } else {
+        if (!text) {
+          return;
+        }
 
-        avatar.textContent =
-          getInitials(name);
+
+        const author =
+          localStorage
+            .getItem("wawera_name") ||
+          "Utilizador";
+
+
+        const posts =
+          JSON.parse(
+            localStorage
+              .getItem("wawera_posts") ||
+            "[]"
+          );
+
+
+        posts.unshift({
+
+          id: Date.now(),
+
+          author: author,
+
+          category: category,
+
+          text: text,
+
+          date:
+            new Date()
+              .toLocaleString("pt-PT")
+
+        });
+
+
+        localStorage.setItem(
+          "wawera_posts",
+          JSON.stringify(posts)
+        );
+
+
+        document
+          .getElementById("postText")
+          .value = "";
+
+
+        showPage("comunidade");
+
+      });
+
+
+    function renderFeed() {
+
+      const feed =
+        document.getElementById("feed");
+
+
+      const posts =
+        JSON.parse(
+          localStorage
+            .getItem("wawera_posts") ||
+          "[]"
+        );
+
+
+      if (!posts.length) {
+
+        feed.innerHTML = `
+          <div class="empty">
+            Ainda não existem publicações.<br>
+            Sê o primeiro a publicar!
+          </div>
+        `;
+
+        return;
+
       }
+
+
+      feed.innerHTML =
+        posts
+          .map(post => `
+            <article class="post">
+
+              <div class="post-head">
+
+                <div class="post-author">
+                  <strong>
+                    ${escapeHtml(post.author)}
+                  </strong>
+
+                  <span>
+                    ${escapeHtml(post.date)}
+                  </span>
+                </div>
+
+                <div class="category">
+                  ${escapeHtml(post.category)}
+                </div>
+
+              </div>
+
+              <div class="post-content">
+                ${escapeHtml(post.text)}
+              </div>
+
+              <div class="post-actions">
+
+                <button
+                  class="secondary"
+                  onclick="likePost(${post.id})"
+                >
+                  ❤️ Gostar
+                </button>
+
+                <button
+                  class="secondary"
+                  onclick="deletePost(${post.id})"
+                >
+                  🗑️ Apagar
+                </button>
+
+              </div>
+
+            </article>
+          `)
+          .join("");
 
     }
 
 
+    function likePost(id) {
+
+      alert("Gostei! ❤️");
+
+    }
+
+
+    function deletePost(id) {
+
+      const posts =
+        JSON.parse(
+          localStorage
+            .getItem("wawera_posts") ||
+          "[]"
+        );
+
+
+      const post =
+        posts.find(item => item.id === id);
+
+
+      if (!post) {
+        return;
+      }
+
+
+      const currentUser =
+        localStorage
+          .getItem("wawera_name") ||
+        "Utilizador";
+
+
+      if (post.author !== currentUser) {
+
+        alert(
+          "Só podes apagar as tuas próprias publicações."
+        );
+
+        return;
+      }
+
+
+      const filtered =
+        posts.filter(
+          item => item.id !== id
+        );
+
+
+      localStorage.setItem(
+        "wawera_posts",
+        JSON.stringify(filtered)
+      );
+
+
+      renderFeed();
+
+    }
+
+
+    function escapeHtml(value) {
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    function loadProfileEditor() {
+
+      document
+        .getElementById("profileNameInput")
+        .value =
+          localStorage
+            .getItem("wawera_name") ||
+          "";
+
+
+      document
+        .getElementById("profileBioInput")
+        .value =
+          localStorage
+            .getItem("wawera_bio") ||
+          "";
+
+    }
+
+
+    const originalShowPage =
+      showPage;
+
+
+    window.showPage =
+      function(page) {
+
+        if (page === "editProfile") {
+          loadProfileEditor();
+        }
+
+        originalShowPage(page);
+
+      };
+
+
     updateProfileView();
 
+
     updateAuthMode();
+
+
+    renderFeed();
 
   </script>
 
