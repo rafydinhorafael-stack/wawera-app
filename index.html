@@ -1086,7 +1086,11 @@
     const API_URL = "https://wawera-app.onrender.com";
 
 async function checkBackend() {
+  const status = document.getElementById("dashboardStatus");
+
   try {
+    status.textContent = "A verificar ligação ao servidor...";
+
     const response = await fetch(API_URL + "/api/health");
 
     if (!response.ok) {
@@ -1095,12 +1099,19 @@ async function checkBackend() {
 
     const data = await response.json();
 
+    if (data.status === "online") {
+      status.textContent = "🟢 Servidor Wawera online";
+    } else {
+      status.textContent = "🟡 Servidor respondeu, mas está com estado diferente";
+    }
+
     console.log("Wawera backend:", data);
+
   } catch (error) {
+    status.textContent = "🔴 Servidor Wawera indisponível";
     console.error("Erro ao ligar ao backend:", error);
   }
 }
-
 checkBackend();
 
 const pages = [
