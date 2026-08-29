@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Wawera — uma comunidade para partilhar, conectar e descobrir oportunidades.">
+  <meta name="description" content="Wawera — comunidade, oportunidades e conexões.">
   <title>Wawera!</title>
 
   <style>
@@ -14,7 +14,7 @@
       --text: #ffffff;
       --muted: #aeb7ca;
       --line: rgba(255,255,255,.10);
-      --liked: #ff6b81;
+      --accent: #ffffff;
     }
 
     * {
@@ -47,7 +47,7 @@
 
     .screen {
       min-height: 100vh;
-      padding: 16px;
+      padding: 14px;
     }
 
     .container {
@@ -122,9 +122,9 @@
     }
 
     .primary {
-      border: 0;
       background: #fff;
       color: var(--bg);
+      border: 0;
     }
 
     .secondary {
@@ -167,7 +167,7 @@
     }
 
     .field textarea {
-      min-height: 130px;
+      min-height: 120px;
       resize: vertical;
     }
 
@@ -234,11 +234,17 @@
     }
 
     .profile-card {
-      margin-top: 20px;
-      padding: 20px;
+      margin-top: 16px;
+      padding: 18px;
       background: var(--card2);
       border-radius: 18px;
       border: 1px solid var(--line);
+    }
+
+    .profile-card span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
     }
 
     .avatar {
@@ -262,17 +268,6 @@
       object-fit: cover;
     }
 
-    .message {
-      margin-top: 14px;
-      padding: 12px;
-      border-radius: 12px;
-      background: rgba(255,255,255,.05);
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.5;
-      text-align: center;
-    }
-
     .switch {
       margin-top: 18px;
       text-align: center;
@@ -281,199 +276,134 @@
     }
 
     .switch button {
+      width: auto;
+      padding: 0;
+      margin-left: 5px;
       background: none;
       border: 0;
       color: #fff;
       font-weight: 800;
-      padding: 0;
-      margin-left: 5px;
     }
 
-    .composer {
-      margin-top: 20px;
-      padding: 18px;
-      border-radius: 18px;
-      background: var(--card2);
-      border: 1px solid var(--line);
+    .message {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.5;
     }
 
-    .composer textarea {
-      width: 100%;
-      min-height: 95px;
+    .search-box {
+      margin-top: 22px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .search-box input {
+      flex: 1;
+      min-width: 0;
       padding: 14px;
-      background: #141a2c;
-      border: 1px solid var(--line);
-      color: #fff;
       border-radius: 14px;
-      resize: vertical;
+      border: 1px solid var(--line);
+      background: var(--card2);
+      color: #fff;
       outline: none;
     }
 
-    .composer-row {
-      display: flex;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .composer-row select {
-      flex: 1;
-      min-width: 0;
-      padding: 12px;
-      background: #141a2c;
-      color: #fff;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-    }
-
-    .composer-row button {
+    .search-box button {
       width: auto;
-      padding: 12px 16px;
-      flex-shrink: 0;
+      padding: 14px 18px;
+      border-radius: 14px;
     }
 
-    .post {
-      margin-top: 16px;
+    .filters {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin-top: 14px;
+      padding-bottom: 4px;
+    }
+
+    .filter-btn {
+      flex: 0 0 auto;
+      padding: 10px 13px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .filter-btn.active {
+      background: #fff;
+      color: var(--bg);
+    }
+
+    .opportunity {
+      margin-top: 14px;
       padding: 18px;
       border-radius: 18px;
       background: var(--card2);
       border: 1px solid var(--line);
     }
 
-    .post-header {
+    .opportunity-head {
       display: flex;
+      justify-content: space-between;
       gap: 12px;
-      align-items: center;
+      align-items: flex-start;
     }
 
-    .post-avatar {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      background: #fff;
-      color: var(--bg);
+    .opportunity-head strong {
+      font-size: 18px;
+    }
+
+    .tag {
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      color: var(--muted);
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .opportunity p {
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    .meta {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      font-weight: 900;
-      flex-shrink: 0;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
     }
 
-    .post-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .post-user {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .post-user strong {
-      display: block;
-      word-break: break-word;
-    }
-
-    .post-user span {
+    .meta span {
+      padding: 7px 9px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.04);
       color: var(--muted);
       font-size: 12px;
     }
 
-    .badge {
-      font-size: 11px;
-      padding: 5px 8px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.08);
-      color: var(--muted);
-      white-space: nowrap;
-    }
-
-    .post-text {
-      margin-top: 14px;
-      line-height: 1.6;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    .post-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 14px;
-      flex-wrap: wrap;
-    }
-
-    .post-actions button {
-      width: auto;
-      padding: 9px 13px;
-      border-radius: 11px;
-      background: transparent;
-      color: #fff;
-      border: 1px solid var(--line);
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .post-actions .liked {
-      color: var(--liked);
-      border-color: rgba(255,107,129,.25);
-    }
-
-    .comment-area {
-      display: flex;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .comment-area input {
-      flex: 1;
-      min-width: 0;
-      padding: 11px;
-      border-radius: 11px;
-      border: 1px solid var(--line);
-      background: #141a2c;
-      color: #fff;
-      outline: none;
-    }
-
-    .comment-area button {
-      width: auto;
-      padding: 11px 14px;
-    }
-
-    .comments {
-      margin-top: 12px;
-      display: grid;
-      gap: 8px;
-    }
-
-    .comment {
-      padding: 10px 12px;
-      border-radius: 12px;
-      background: rgba(255,255,255,.04);
-    }
-
-    .comment strong {
-      font-size: 13px;
-    }
-
-    .comment span {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .empty {
+    .no-results {
       margin-top: 18px;
-      padding: 24px 16px;
+      padding: 24px;
       border: 1px dashed var(--line);
       border-radius: 18px;
       text-align: center;
       color: var(--muted);
-      line-height: 1.5;
     }
 
-    .footer-note {
-      margin-top: 18px;
+    .small {
+      margin-top: 12px;
       color: var(--muted);
       font-size: 12px;
       text-align: center;
@@ -481,24 +411,16 @@
     }
 
     @media (max-width: 520px) {
-      .screen {
-        padding: 12px;
-      }
-
       .menu {
         grid-template-columns: 1fr;
       }
 
-      .composer-row {
+      .search-box {
         flex-direction: column;
       }
 
-      .composer-row button {
+      .search-box button {
         width: 100%;
-      }
-
-      .card {
-        padding: 24px 15px;
       }
     }
   </style>
@@ -509,6 +431,7 @@
   <!-- WELCOME -->
   <section id="welcome" class="screen">
     <div class="container">
+
       <div class="card">
 
         <div class="logo">W!</div>
@@ -527,18 +450,22 @@
         </div>
 
       </div>
+
     </div>
   </section>
 
 
-  <!-- AUTENTICAÇÃO -->
+  <!-- LOGIN -->
   <section id="auth" class="screen hidden">
     <div class="container">
+
       <div class="card">
 
         <div class="logo">W!</div>
 
-        <h2 id="authTitle">Entrar</h2>
+        <h2 id="authTitle">
+          Entrar
+        </h2>
 
         <p class="lead" id="authDescription">
           Entra na tua conta Wawera.
@@ -547,17 +474,27 @@
         <form id="authForm" class="form">
 
           <div class="field hidden" id="nameField">
-            <label for="nameInput">Nome</label>
+
+            <label for="nameInput">
+              Nome
+            </label>
+
             <input
               id="nameInput"
               type="text"
               placeholder="O teu nome"
               autocomplete="name"
             >
+
           </div>
 
+
           <div class="field">
-            <label for="emailInput">Email</label>
+
+            <label for="emailInput">
+              Email
+            </label>
+
             <input
               id="emailInput"
               type="email"
@@ -565,10 +502,16 @@
               autocomplete="email"
               required
             >
+
           </div>
 
+
           <div class="field">
-            <label for="passwordInput">Palavra-passe</label>
+
+            <label for="passwordInput">
+              Palavra-passe
+            </label>
+
             <input
               id="passwordInput"
               type="password"
@@ -576,25 +519,42 @@
               autocomplete="current-password"
               required
             >
+
           </div>
 
-          <button class="primary" type="submit" id="authSubmit">
+
+          <button
+            class="primary"
+            type="submit"
+            id="authSubmit"
+          >
             Entrar
           </button>
 
         </form>
 
-        <div id="authMessage" class="message hidden"></div>
+
+        <div
+          id="authMessage"
+          class="message hidden"
+        ></div>
+
 
         <div class="switch">
+
           <span id="switchLabel">
             Ainda não tens conta?
           </span>
 
-          <button type="button" id="switchAuth">
+          <button
+            type="button"
+            id="switchAuth"
+          >
             Criar conta
           </button>
+
         </div>
+
 
         <button
           class="secondary"
@@ -604,11 +564,13 @@
           Voltar
         </button>
 
-        <p class="footer-note">
-          Nesta versão, os dados são guardados apenas neste navegador.
+
+        <p class="small">
+          Nesta versão, a conta funciona apenas localmente.
         </p>
 
       </div>
+
     </div>
   </section>
 
@@ -616,6 +578,7 @@
   <!-- DASHBOARD -->
   <section id="dashboard" class="screen hidden">
     <div class="container">
+
       <div class="card">
 
         <div class="topbar">
@@ -625,60 +588,100 @@
           </div>
 
           <div class="topbar-info">
+
             <strong>
-              Olá, <span id="dashName">Utilizador</span> 👋🏾
+              Olá,
+              <span id="dashName">
+                Utilizador
+              </span>
+              👋🏾
             </strong>
 
             <span id="dashEmail"></span>
+
           </div>
 
         </div>
 
-        <h2>Painel Wawera</h2>
+
+        <h2>
+          Painel Wawera
+        </h2>
 
         <p class="lead">
-          Escolhe o que queres fazer.
+          Escolhe uma área para continuar.
         </p>
+
 
         <div class="menu">
 
           <button onclick="showPage('explorar')">
-            <strong>🔎 Explorar</strong>
+
+            <strong>
+              🔎 Explorar
+            </strong>
+
             <span>
               Descobre conteúdos e novidades.
             </span>
+
           </button>
 
+
           <button onclick="showPage('comunidade')">
-            <strong>👥 Comunidade</strong>
+
+            <strong>
+              👥 Comunidade
+            </strong>
+
             <span>
               Publica e conversa com outras pessoas.
             </span>
+
           </button>
 
+
           <button onclick="showPage('oportunidades')">
-            <strong>🚀 Oportunidades</strong>
+
+            <strong>
+              🚀 Oportunidades
+            </strong>
+
             <span>
               Encontra empregos, projetos e serviços.
             </span>
+
           </button>
 
+
           <button onclick="showProfile()">
-            <strong>👤 Perfil</strong>
+
+            <strong>
+              👤 Perfil
+            </strong>
+
             <span>
-              Vê e edita o teu perfil.
+              Consulta e edita o teu perfil.
             </span>
+
           </button>
 
         </div>
 
+
         <div class="actions">
-          <button class="danger" onclick="logout()">
+
+          <button
+            class="danger"
+            onclick="logout()"
+          >
             Sair da conta
           </button>
+
         </div>
 
       </div>
+
     </div>
   </section>
 
@@ -686,30 +689,42 @@
   <!-- PERFIL -->
   <section id="perfil" class="screen hidden">
     <div class="container">
+
       <div class="card">
 
-        <div class="avatar" id="profileAvatar">
+        <div
+          class="avatar"
+          id="profileAvatar"
+        >
           W!
         </div>
+
 
         <h2 id="profileName">
           Utilizador
         </h2>
 
-        <p class="lead" id="profileBio">
+
+        <p
+          class="lead"
+          id="profileBio"
+        >
           Ainda não adicionaste uma biografia.
         </p>
 
+
         <div class="profile-card">
 
-          <h3>Email</h3>
+          <h3>
+            Email
+          </h3>
 
           <span
             id="profileEmail"
-            style="color:var(--muted);font-size:14px"
           ></span>
 
         </div>
+
 
         <div class="actions">
 
@@ -719,6 +734,7 @@
           >
             ✏️ Editar perfil
           </button>
+
 
           <button
             class="secondary"
@@ -730,6 +746,7 @@
         </div>
 
       </div>
+
     </div>
   </section>
 
@@ -737,17 +754,25 @@
   <!-- EDITAR PERFIL -->
   <section id="editProfile" class="screen hidden">
     <div class="container">
+
       <div class="card">
 
-        <h2>Editar perfil</h2>
+        <h2>
+          Editar perfil
+        </h2>
 
         <p class="lead">
-          Personaliza o teu perfil.
+          Atualiza os teus dados.
         </p>
 
-        <form id="profileForm" class="form">
+
+        <form
+          id="profileForm"
+          class="form"
+        >
 
           <div class="field">
+
             <label for="editName">
               Nome
             </label>
@@ -755,12 +780,15 @@
             <input
               id="editName"
               type="text"
-              required
               placeholder="O teu nome"
+              required
             >
+
           </div>
 
+
           <div class="field">
+
             <label for="editBio">
               Biografia
             </label>
@@ -770,18 +798,25 @@
               maxlength="500"
               placeholder="Fala um pouco sobre ti..."
             ></textarea>
+
           </div>
 
-          <button class="primary" type="submit">
+
+          <button
+            class="primary"
+            type="submit"
+          >
             Guardar perfil
           </button>
 
         </form>
 
+
         <div
           id="profileMessage"
           class="message hidden"
         ></div>
+
 
         <button
           class="secondary"
@@ -792,6 +827,7 @@
         </button>
 
       </div>
+
     </div>
   </section>
 
@@ -799,36 +835,47 @@
   <!-- EXPLORAR -->
   <section id="explorar" class="screen hidden">
     <div class="container">
+
       <div class="card">
 
-        <div class="logo">🔎</div>
+        <div class="logo">
+          🔎
+        </div>
 
-        <h2>Explorar</h2>
+        <h2>
+          Explorar
+        </h2>
 
         <p class="lead">
-          Descobre o que está a acontecer na Wawera.
+          Descobre novidades e conteúdos.
         </p>
 
+
         <div class="profile-card">
 
-          <h3>Conteúdos em destaque</h3>
+          <h3>
+            Conteúdos em destaque
+          </h3>
 
-          <span style="color:var(--muted);font-size:14px">
-            Nesta área vamos colocar conteúdos populares
-            e recomendações personalizadas.
+          <span>
+            Nesta área vamos colocar recomendações personalizadas.
           </span>
 
         </div>
 
+
         <div class="profile-card">
 
-          <h3>Novidades</h3>
+          <h3>
+            Novidades
+          </h3>
 
-          <span style="color:var(--muted);font-size:14px">
-            As novidades da plataforma aparecerão aqui.
+          <span>
+            As novidades da Wawera aparecerão aqui.
           </span>
 
         </div>
+
 
         <button
           class="secondary"
@@ -839,6 +886,7 @@
         </button>
 
       </div>
+
     </div>
   </section>
 
@@ -846,13 +894,17 @@
   <!-- COMUNIDADE -->
   <section id="comunidade" class="screen hidden">
     <div class="container">
+
       <div class="card">
 
-        <h2>Comunidade 👥</h2>
+        <h2>
+          Comunidade 👥
+        </h2>
 
         <p class="lead">
-          Partilha algo com a comunidade.
+          Partilha e conversa com a comunidade.
         </p>
+
 
         <div class="composer">
 
@@ -862,9 +914,11 @@
             placeholder="O que estás a pensar?"
           ></textarea>
 
+
           <div class="composer-row">
 
             <select id="postCategory">
+
               <option value="Geral">
                 Geral
               </option>
@@ -888,7 +942,9 @@
               <option value="Entretenimento">
                 Entretenimento
               </option>
+
             </select>
+
 
             <button
               class="primary"
@@ -901,7 +957,9 @@
 
         </div>
 
+
         <div id="feed"></div>
+
 
         <button
           class="secondary"
@@ -912,6 +970,7 @@
         </button>
 
       </div>
+
     </div>
   </section>
 
@@ -919,45 +978,86 @@
   <!-- OPORTUNIDADES -->
   <section id="oportunidades" class="screen hidden">
     <div class="container">
+
       <div class="card">
 
-        <div class="logo">🚀</div>
+        <div class="logo">
+          🚀
+        </div>
 
-        <h2>Oportunidades</h2>
+        <h2>
+          Oportunidades
+        </h2>
 
         <p class="lead">
-          Encontra oportunidades profissionais e projetos.
+          Procura oportunidades profissionais,
+          projetos e serviços.
         </p>
 
-        <div class="profile-card">
 
-          <h3>💼 Empregos</h3>
+        <!-- PESQUISA -->
 
-          <span style="color:var(--muted);font-size:14px">
-            Em breve poderás encontrar vagas na plataforma.
-          </span>
+        <div class="search-box">
+
+          <input
+            id="opSearch"
+            type="search"
+            placeholder="Pesquisar oportunidades..."
+          >
+
+          <button
+            class="primary"
+            onclick="searchOpportunities()"
+          >
+            Pesquisar
+          </button>
+
+        </div>
+
+
+        <!-- FILTROS -->
+
+        <div class="filters">
+
+          <button
+            class="filter-btn active"
+            data-filter="Todos"
+            onclick="setOpportunityFilter('Todos')"
+          >
+            Todos
+          </button>
+
+          <button
+            class="filter-btn"
+            data-filter="Emprego"
+            onclick="setOpportunityFilter('Emprego')"
+          >
+            💼 Empregos
+          </button>
+
+          <button
+            class="filter-btn"
+            data-filter="Projeto"
+            onclick="setOpportunityFilter('Projeto')"
+          >
+            🤝 Projetos
+          </button>
+
+          <button
+            class="filter-btn"
+            data-filter="Serviço"
+            onclick="setOpportunityFilter('Serviço')"
+          >
+            🛠️ Serviços
+          </button>
 
         </div>
 
-        <div class="profile-card">
 
-          <h3>🤝 Projetos</h3>
+        <!-- RESULTADOS -->
 
-          <span style="color:var(--muted);font-size:14px">
-            Espaço para colaborações e projetos.
-          </span>
+        <div id="opportunityList"></div>
 
-        </div>
-
-        <div class="profile-card">
-
-          <h3>🛠️ Serviços</h3>
-
-          <span style="color:var(--muted);font-size:14px">
-            Utilizadores poderão oferecer e procurar serviços.
-          </span>
-
-        </div>
 
         <button
           class="secondary"
@@ -967,7 +1067,14 @@
           Voltar
         </button>
 
+
+        <p class="small">
+          Estes são exemplos locais. Depois ligaremos
+          esta área a oportunidades reais.
+        </p>
+
       </div>
+
     </div>
   </section>
 
@@ -987,6 +1094,73 @@
 
 
     let registerMode = false;
+
+    let opportunityFilter = "Todos";
+
+
+    const opportunities = [
+
+      {
+        title: "Gruista de Torre",
+        type: "Emprego",
+        location: "Guimarães, Portugal",
+        description:
+          "Oportunidade para operador de grua torre em obra.",
+        company:
+          "Empresa de construção",
+        salary:
+          "A definir"
+      },
+
+      {
+        title: "Operador de Empilhador",
+        type: "Emprego",
+        location: "Braga, Portugal",
+        description:
+          "Vaga para operador de empilhador com disponibilidade imediata.",
+        company:
+          "Empresa industrial",
+        salary:
+          "A definir"
+      },
+
+      {
+        title: "Projeto de Marketing Digital",
+        type: "Projeto",
+        location: "Remoto",
+        description:
+          "Procura-se pessoa para colaborar num projeto digital.",
+        company:
+          "Projeto independente",
+        salary:
+          "Negociável"
+      },
+
+      {
+        title: "Serviço de Montagem",
+        type: "Serviço",
+        location: "Guimarães",
+        description:
+          "Serviço profissional de montagem e reparações.",
+        company:
+          "Prestador local",
+        salary:
+          "Sob orçamento"
+      },
+
+      {
+        title: "Desenvolvimento Web",
+        type: "Projeto",
+        location: "Remoto",
+        description:
+          "Projeto para desenvolvimento de uma plataforma web.",
+        company:
+          "Projeto independente",
+        salary:
+          "Negociável"
+      }
+
+    ];
 
 
     function showPage(page) {
@@ -1015,6 +1189,11 @@
 
       if (page === "comunidade") {
         renderFeed();
+      }
+
+
+      if (page === "oportunidades") {
+        renderOpportunities();
       }
 
     }
@@ -1117,6 +1296,7 @@
 
         password.autocomplete =
           "current-password";
+
       }
 
     }
@@ -1165,10 +1345,7 @@
           document.getElementById("authMessage");
 
 
-        if (
-          !email ||
-          !password
-        ) {
+        if (!email || !password) {
 
           message.textContent =
             "Preenche o email e a palavra-passe.";
@@ -1182,10 +1359,7 @@
         }
 
 
-        if (
-          registerMode &&
-          !name
-        ) {
+        if (registerMode && !name) {
 
           message.textContent =
             "Escreve o teu nome.";
@@ -1247,20 +1421,17 @@
     function updateProfileView() {
 
       const name =
-        localStorage
-          .getItem("wawera_name")
+        localStorage.getItem("wawera_name")
         || "Utilizador";
 
 
       const email =
-        localStorage
-          .getItem("wawera_email")
+        localStorage.getItem("wawera_email")
         || "";
 
 
       const bio =
-        localStorage
-          .getItem("wawera_bio")
+        localStorage.getItem("wawera_bio")
         || "";
 
 
@@ -1303,30 +1474,30 @@
     function updateAvatar() {
 
       const name =
-        localStorage
-          .getItem("wawera_name")
+        localStorage.getItem("wawera_name")
         || "Wawera";
 
 
       const photo =
-        localStorage
-          .getItem("wawera_photo");
+        localStorage.getItem("wawera_photo");
 
 
-      const profileAvatar =
-        document.getElementById("profileAvatar");
+      const avatar =
+        document.getElementById(
+          "profileAvatar"
+        );
 
 
       if (photo) {
 
-        profileAvatar.innerHTML =
+        avatar.innerHTML =
           '<img src="' +
           photo +
-          '" alt="Foto de perfil">';
+          '" alt="Avatar">';
 
       } else {
 
-        profileAvatar.textContent =
+        avatar.textContent =
           getInitials(name);
 
       }
@@ -1361,6 +1532,15 @@
         parts[0][0] +
         parts[parts.length - 1][0]
       ).toUpperCase();
+
+    }
+
+
+    function showProfile() {
+
+      updateProfileView();
+
+      showPage("perfil");
 
     }
 
@@ -1450,7 +1630,7 @@
 
 
         message.textContent =
-          "Perfil atualizado com sucesso.";
+          "Perfil atualizado.";
 
         message
           .classList
@@ -1466,15 +1646,6 @@
       });
 
 
-    function showProfile() {
-
-      updateProfileView();
-
-      showPage("perfil");
-
-    }
-
-
     function logout() {
 
       showPage("welcome");
@@ -1488,7 +1659,9 @@
         document.getElementById("postInput");
 
       const category =
-        document.getElementById("postCategory");
+        document.getElementById(
+          "postCategory"
+        );
 
 
       const text =
@@ -1514,7 +1687,7 @@
         );
 
 
-      const post = {
+      posts.unshift({
 
         id: Date.now(),
 
@@ -1522,11 +1695,6 @@
           localStorage
             .getItem("wawera_name")
           || "Utilizador",
-
-        email:
-          localStorage
-            .getItem("wawera_email")
-          || "",
 
         category:
           category.value,
@@ -1544,10 +1712,7 @@
           new Date()
             .toLocaleString("pt-PT")
 
-      };
-
-
-      posts.unshift(post);
+      });
 
 
       localStorage.setItem(
@@ -1611,44 +1776,17 @@
         post.author === currentUser;
 
 
-      const photo =
-        localStorage
-          .getItem("wawera_photo");
-
-
-      const avatarHtml =
-        photo
-          ? '<img src="' +
-            photo +
-            '" alt="Avatar">'
-          : getInitials(post.author);
-
-
-      const comments =
-        (post.comments || [])
-          .map(comment => `
-            <div class="comment">
-              <strong>
-                ${escapeHtml(comment.author)}
-              </strong>
-              <span>
-                ${escapeHtml(comment.text)}
-              </span>
-            </div>
-          `)
-          .join("");
-
-
       return `
         <article class="post">
 
           <div class="post-header">
 
             <div class="post-avatar">
-              ${avatarHtml}
+              ${getInitials(post.author)}
             </div>
 
             <div class="post-user">
+
               <strong>
                 ${escapeHtml(post.author)}
               </strong>
@@ -1656,6 +1794,7 @@
               <span>
                 ${escapeHtml(post.date)}
               </span>
+
             </div>
 
             <div class="badge">
@@ -1678,7 +1817,6 @@
             >
               ❤️ ${post.likes || 0}
             </button>
-
 
             ${
               isOwner
@@ -1715,7 +1853,23 @@
 
 
           <div class="comments">
-            ${comments}
+
+            ${
+              (post.comments || [])
+                .map(comment => `
+                  <div class="comment">
+                    <strong>
+                      ${escapeHtml(comment.author)}
+                    </strong>
+
+                    <span>
+                      ${escapeHtml(comment.text)}
+                    </span>
+                  </div>
+                `)
+                .join("")
+            }
+
           </div>
 
         </article>
@@ -1869,7 +2023,6 @@
         );
 
         return;
-
       }
 
 
@@ -1902,11 +2055,166 @@
     }
 
 
+    function setOpportunityFilter(filter) {
+
+      opportunityFilter =
+        filter;
+
+
+      document
+        .querySelectorAll(".filter-btn")
+        .forEach(button => {
+
+          button.classList.toggle(
+            "active",
+            button.dataset.filter === filter
+          );
+
+        });
+
+
+      renderOpportunities();
+
+    }
+
+
+    function searchOpportunities() {
+
+      renderOpportunities();
+
+    }
+
+
+    document
+      .getElementById("opSearch")
+      .addEventListener("input", () => {
+
+        renderOpportunities();
+
+      });
+
+
+    function renderOpportunities() {
+
+      const list =
+        document.getElementById(
+          "opportunityList"
+        );
+
+
+      const query =
+        document
+          .getElementById("opSearch")
+          .value
+          .trim()
+          .toLowerCase();
+
+
+      const filtered =
+        opportunities.filter(item => {
+
+          const matchesFilter =
+            opportunityFilter === "Todos" ||
+            item.type === opportunityFilter;
+
+
+          const text =
+            (
+              item.title +
+              " " +
+              item.type +
+              " " +
+              item.location +
+              " " +
+              item.description +
+              " " +
+              item.company
+            )
+            .toLowerCase();
+
+
+          const matchesSearch =
+            !query ||
+            text.includes(query);
+
+
+          return (
+            matchesFilter &&
+            matchesSearch
+          );
+
+        });
+
+
+      if (!filtered.length) {
+
+        list.innerHTML = `
+          <div class="no-results">
+            Não encontrámos oportunidades
+            para a tua pesquisa.
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      list.innerHTML =
+        filtered
+          .map(item => `
+
+            <article class="opportunity">
+
+              <div class="opportunity-head">
+
+                <strong>
+                  ${escapeHtml(item.title)}
+                </strong>
+
+                <span class="tag">
+                  ${escapeHtml(item.type)}
+                </span>
+
+              </div>
+
+
+              <p>
+                ${escapeHtml(item.description)}
+              </p>
+
+
+              <div class="meta">
+
+                <span>
+                  📍 ${escapeHtml(item.location)}
+                </span>
+
+                <span>
+                  🏢 ${escapeHtml(item.company)}
+                </span>
+
+                <span>
+                  💰 ${escapeHtml(item.salary)}
+                </span>
+
+              </div>
+
+            </article>
+
+          `)
+          .join("");
+
+    }
+
+
     updateProfileView();
 
     updateAuthMode();
 
     renderFeed();
+
+    renderOpportunities();
 
   </script>
 
