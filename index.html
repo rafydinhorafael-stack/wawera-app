@@ -10,9 +10,10 @@
     :root {
       --bg: #0b1020;
       --card: #171d30;
+      --card2: #1d2438;
       --text: #ffffff;
       --muted: #aeb7ca;
-      --line: rgba(255, 255, 255, 0.10);
+      --line: rgba(255,255,255,.10);
     }
 
     * {
@@ -39,11 +40,11 @@
     .card {
       width: 100%;
       max-width: 720px;
-      background: rgba(23, 29, 48, 0.96);
+      background: rgba(23,29,48,.97);
       border: 1px solid var(--line);
       border-radius: 28px;
-      padding: 34px 24px;
-      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.35);
+      padding: 32px 22px;
+      box-shadow: 0 25px 80px rgba(0,0,0,.35);
     }
 
     .hidden {
@@ -54,7 +55,7 @@
       width: 78px;
       height: 78px;
       border-radius: 22px;
-      background: #ffffff;
+      background: #fff;
       color: var(--bg);
       display: flex;
       align-items: center;
@@ -73,15 +74,15 @@
     }
 
     h2 {
+      text-align: center;
       font-size: 30px;
       margin-bottom: 10px;
-      text-align: center;
     }
 
     .lead {
       text-align: center;
       color: var(--muted);
-      font-size: 18px;
+      font-size: 17px;
       line-height: 1.6;
       max-width: 560px;
       margin: 0 auto;
@@ -105,13 +106,13 @@
     }
 
     .primary {
-      background: #ffffff;
+      background: #fff;
       color: var(--bg);
     }
 
     .secondary {
       background: transparent;
-      color: #ffffff;
+      color: #fff;
       border: 1px solid var(--line);
     }
 
@@ -123,19 +124,49 @@
     }
 
     .feature {
-      padding: 20px;
+      padding: 22px 18px;
       border: 1px solid var(--line);
       border-radius: 18px;
-      background: rgba(255, 255, 255, 0.03);
+      background: var(--card2);
+      cursor: pointer;
+      transition: transform .15s ease, border-color .15s ease;
+    }
+
+    .feature:active {
+      transform: scale(.98);
     }
 
     .feature strong {
       display: block;
-      font-size: 17px;
-      margin-bottom: 6px;
+      font-size: 18px;
+      margin-bottom: 7px;
     }
 
     .feature span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .item {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--card2);
+    }
+
+    .item strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .item p {
       color: var(--muted);
       font-size: 14px;
       line-height: 1.5;
@@ -160,6 +191,7 @@
 
 <body>
 
+  <!-- ECRÃ DE BOAS-VINDAS -->
   <section id="welcome" class="screen">
     <div class="card">
 
@@ -168,7 +200,8 @@
       <h1>Wawera!</h1>
 
       <p class="lead">
-        Uma nova experiência digital para conectar pessoas, ideias e oportunidades.
+        Uma nova experiência digital para conectar pessoas,
+        ideias e oportunidades.
       </p>
 
       <div class="actions">
@@ -181,6 +214,7 @@
   </section>
 
 
+  <!-- MENU PRINCIPAL -->
   <section id="home" class="screen hidden">
     <div class="card">
 
@@ -189,42 +223,198 @@
       <h2>Bem-vindo à Wawera 👋🏾</h2>
 
       <p class="lead">
-        Este é o primeiro ecrã funcional da nossa aplicação.
+        Escolhe uma área para continuar.
       </p>
 
       <div class="grid">
 
-        <div class="feature">
-          <strong>Explorar</strong>
+        <div class="feature" data-page="explorar">
+          <strong>🔎 Explorar</strong>
           <span>
-            Descobre novas possibilidades dentro da Wawera.
+            Descobre conteúdos e possibilidades dentro da Wawera.
           </span>
         </div>
 
-        <div class="feature">
-          <strong>Comunidade</strong>
+        <div class="feature" data-page="comunidade">
+          <strong>👥 Comunidade</strong>
           <span>
-            Conecta-te e partilha ideias com outras pessoas.
+            Conhece pessoas e partilha ideias.
           </span>
         </div>
 
-        <div class="feature">
-          <strong>Oportunidades</strong>
+        <div class="feature" data-page="oportunidades">
+          <strong>🚀 Oportunidades</strong>
           <span>
-            Encontra projetos, serviços e novas oportunidades.
+            Descobre projetos, serviços e oportunidades.
           </span>
         </div>
 
-        <div class="feature">
-          <strong>Perfil</strong>
+        <div class="feature" data-page="perfil">
+          <strong>👤 Perfil</strong>
           <span>
-            A tua área pessoal será adicionada na próxima etapa.
+            Consulta e personaliza o teu perfil.
           </span>
         </div>
 
       </div>
 
-      <button class="secondary back" id="backBtn">
+      <button class="secondary back" id="logoutBtn">
+        Sair
+      </button>
+
+    </div>
+  </section>
+
+
+  <!-- EXPLORAR -->
+  <section id="explorar" class="screen hidden">
+    <div class="card">
+
+      <div class="logo">🔎</div>
+
+      <h2>Explorar</h2>
+
+      <p class="lead">
+        Aqui vamos mostrar conteúdos, serviços e novidades da Wawera.
+      </p>
+
+      <div class="list">
+
+        <div class="item">
+          <strong>Conteúdos em destaque</strong>
+          <p>Descobre o que está a chamar atenção na plataforma.</p>
+        </div>
+
+        <div class="item">
+          <strong>Novidades</strong>
+          <p>Consulta as novidades e atualizações da Wawera.</p>
+        </div>
+
+        <div class="item">
+          <strong>Descobrir pessoas</strong>
+          <p>Encontra novos utilizadores e novas ligações.</p>
+        </div>
+
+      </div>
+
+      <button class="secondary back" onclick="showPage('home')">
+        Voltar
+      </button>
+
+    </div>
+  </section>
+
+
+  <!-- COMUNIDADE -->
+  <section id="comunidade" class="screen hidden">
+    <div class="card">
+
+      <div class="logo">👥</div>
+
+      <h2>Comunidade</h2>
+
+      <p class="lead">
+        Um espaço para pessoas comunicarem, partilharem ideias e criarem conexões.
+      </p>
+
+      <div class="list">
+
+        <div class="item">
+          <strong>Publicações</strong>
+          <p>Partilha pensamentos, fotos, ideias e novidades.</p>
+        </div>
+
+        <div class="item">
+          <strong>Conversas</strong>
+          <p>Interage com outras pessoas da comunidade.</p>
+        </div>
+
+        <div class="item">
+          <strong>Grupos</strong>
+          <p>No futuro poderemos criar grupos e comunidades temáticas.</p>
+        </div>
+
+      </div>
+
+      <button class="secondary back" onclick="showPage('home')">
+        Voltar
+      </button>
+
+    </div>
+  </section>
+
+
+  <!-- OPORTUNIDADES -->
+  <section id="oportunidades" class="screen hidden">
+    <div class="card">
+
+      <div class="logo">🚀</div>
+
+      <h2>Oportunidades</h2>
+
+      <p class="lead">
+        Uma área para encontrar oportunidades, projetos, serviços e muito mais.
+      </p>
+
+      <div class="list">
+
+        <div class="item">
+          <strong>Empregos</strong>
+          <p>Descobre vagas e oportunidades profissionais.</p>
+        </div>
+
+        <div class="item">
+          <strong>Projetos</strong>
+          <p>Encontra pessoas e projetos para colaborar.</p>
+        </div>
+
+        <div class="item">
+          <strong>Serviços</strong>
+          <p>Descobre serviços disponibilizados pela comunidade.</p>
+        </div>
+
+      </div>
+
+      <button class="secondary back" onclick="showPage('home')">
+        Voltar
+      </button>
+
+    </div>
+  </section>
+
+
+  <!-- PERFIL -->
+  <section id="perfil" class="screen hidden">
+    <div class="card">
+
+      <div class="logo">👤</div>
+
+      <h2>O meu perfil</h2>
+
+      <p class="lead">
+        Esta será a tua área pessoal dentro da Wawera.
+      </p>
+
+      <div class="list">
+
+        <div class="item">
+          <strong>Nome</strong>
+          <p>O teu nome aparecerá aqui.</p>
+        </div>
+
+        <div class="item">
+          <strong>Sobre mim</strong>
+          <p>A tua descrição pessoal será adicionada aqui.</p>
+        </div>
+
+        <div class="item">
+          <strong>Definições</strong>
+          <p>Privacidade e outras opções do teu perfil.</p>
+        </div>
+
+      </div>
+
+      <button class="secondary back" onclick="showPage('home')">
         Voltar
       </button>
 
@@ -234,34 +424,48 @@
 
   <script>
 
-    const welcome = document.getElementById("welcome");
-    const home = document.getElementById("home");
+    const pages = [
+      "welcome",
+      "home",
+      "explorar",
+      "comunidade",
+      "oportunidades",
+      "perfil"
+    ];
 
-    const startBtn = document.getElementById("startBtn");
-    const backBtn = document.getElementById("backBtn");
+    function showPage(page) {
 
+      pages.forEach(id => {
+        document.getElementById(id).classList.add("hidden");
+      });
 
-    startBtn.addEventListener("click", () => {
-
-      welcome.classList.add("hidden");
-      home.classList.remove("hidden");
+      document.getElementById(page).classList.remove("hidden");
 
       window.scrollTo({
         top: 0,
         behavior: "smooth"
       });
+    }
 
+
+    document.getElementById("startBtn").addEventListener("click", () => {
+      showPage("home");
     });
 
 
-    backBtn.addEventListener("click", () => {
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      showPage("welcome");
+    });
 
-      home.classList.add("hidden");
-      welcome.classList.remove("hidden");
 
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
+    document.querySelectorAll(".feature").forEach(item => {
+
+      item.addEventListener("click", () => {
+
+        const page = item.dataset.page;
+
+        showPage(page);
+
       });
 
     });
