@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Wawera — conecta pessoas, ideias e oportunidades.">
+  <meta name="description" content="Wawera — uma comunidade para partilhar, conectar e descobrir oportunidades.">
   <title>Wawera!</title>
 
   <style>
@@ -14,7 +14,7 @@
       --text: #ffffff;
       --muted: #aeb7ca;
       --line: rgba(255,255,255,.10);
-      --success: #79e0a1;
+      --liked: #ff6b81;
     }
 
     * {
@@ -30,48 +30,61 @@
       color: var(--text);
     }
 
-    .screen {
-      min-height: 100vh;
-      padding: 24px;
-      display: flex;
-      justify-content: center;
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
     }
 
-    .card {
-      width: 100%;
-      max-width: 600px;
-      margin: auto;
-      background: rgba(23,29,48,.97);
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      padding: 28px 18px;
-      box-shadow: 0 25px 80px rgba(0,0,0,.35);
+    button {
+      cursor: pointer;
     }
 
     .hidden {
       display: none !important;
     }
 
+    .screen {
+      min-height: 100vh;
+      padding: 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+      padding-bottom: 40px;
+    }
+
+    .card {
+      background: rgba(23,29,48,.97);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 22px 16px;
+      box-shadow: 0 25px 80px rgba(0,0,0,.30);
+    }
+
     .logo {
-      width: 78px;
-      height: 78px;
+      width: 76px;
+      height: 76px;
       border-radius: 22px;
       background: #fff;
       color: var(--bg);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
+      margin: 0 auto 18px;
+      font-size: 27px;
       font-weight: 900;
-      margin: 0 auto 20px;
     }
 
     h1 {
       text-align: center;
       font-size: clamp(44px, 11vw, 76px);
       line-height: 1;
-      margin-bottom: 14px;
       letter-spacing: -2px;
+      margin-bottom: 14px;
     }
 
     h2 {
@@ -88,7 +101,7 @@
     .lead {
       text-align: center;
       color: var(--muted);
-      font-size: 17px;
+      font-size: 16px;
       line-height: 1.6;
     }
 
@@ -99,17 +112,17 @@
       margin-top: 24px;
     }
 
-    button {
+    .primary,
+    .secondary,
+    .danger {
       width: 100%;
-      border: 0;
+      padding: 15px 18px;
       border-radius: 14px;
-      padding: 15px 20px;
-      font: inherit;
       font-weight: 800;
-      cursor: pointer;
     }
 
     .primary {
+      border: 0;
       background: #fff;
       color: var(--bg);
     }
@@ -121,13 +134,13 @@
     }
 
     .danger {
-      background: rgba(255,120,120,.08);
+      background: rgba(255,107,129,.08);
       color: #fff;
-      border: 1px solid rgba(255,120,120,.18);
+      border: 1px solid rgba(255,107,129,.18);
     }
 
     .form {
-      margin-top: 24px;
+      margin-top: 22px;
     }
 
     .field {
@@ -138,31 +151,24 @@
       display: block;
       margin-bottom: 8px;
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .field input,
     .field textarea,
     .field select {
       width: 100%;
-      padding: 15px;
+      padding: 14px;
       border-radius: 14px;
       border: 1px solid var(--line);
       background: var(--card2);
       color: #fff;
-      font: inherit;
       outline: none;
     }
 
     .field textarea {
       min-height: 130px;
       resize: vertical;
-    }
-
-    .field input:focus,
-    .field textarea:focus,
-    .field select:focus {
-      border-color: rgba(255,255,255,.35);
     }
 
     .topbar {
@@ -173,8 +179,9 @@
     }
 
     .mini-logo {
-      width: 46px;
-      height: 46px;
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
       border-radius: 14px;
       background: #fff;
       color: var(--bg);
@@ -182,144 +189,69 @@
       align-items: center;
       justify-content: center;
       font-weight: 900;
-      flex-shrink: 0;
     }
 
-    .topbar-text {
+    .topbar-info {
       flex: 1;
     }
 
-    .topbar-text strong {
+    .topbar-info strong {
       display: block;
     }
 
-    .topbar-text span {
+    .topbar-info span {
       color: var(--muted);
       font-size: 13px;
     }
 
-    .post {
-      margin-top: 16px;
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: var(--card2);
-    }
-
-    .post-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 12px;
-      margin-bottom: 12px;
+      margin-top: 24px;
     }
 
-    .post-author strong {
-      display: block;
-    }
-
-    .post-author span {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .category {
-      font-size: 12px;
-      padding: 6px 9px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.08);
-      color: var(--muted);
-      white-space: nowrap;
-    }
-
-    .post-content {
-      color: #fff;
-      line-height: 1.6;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    .post-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 14px;
-    }
-
-    .post-actions button {
-      width: auto;
-      padding: 10px 14px;
-      font-size: 13px;
-    }
-
-    .empty {
-      margin-top: 20px;
-      padding: 24px 18px;
-      text-align: center;
-      border: 1px dashed var(--line);
-      border-radius: 18px;
-      color: var(--muted);
-    }
-
-    .message {
-      margin-top: 14px;
-      padding: 12px;
-      border-radius: 12px;
-      background: rgba(255,255,255,.05);
-      color: var(--muted);
-      text-align: center;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .switch {
-      margin-top: 18px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .switch button {
-      width: auto;
-      background: none;
-      border: 0;
-      color: #fff;
-      padding: 0;
-      margin-left: 5px;
-    }
-
-    .profile-box {
-      margin-top: 16px;
+    .menu button {
+      min-height: 105px;
       padding: 18px;
+      text-align: left;
       border-radius: 18px;
       background: var(--card2);
+      color: #fff;
       border: 1px solid var(--line);
     }
 
-    .profile-box span {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.5;
+    .menu button strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 17px;
     }
 
-    .small {
+    .menu button span {
       color: var(--muted);
       font-size: 13px;
-      line-height: 1.5;
-      text-align: center;
-      margin-top: 12px;
+      line-height: 1.4;
+    }
+
+    .profile-card {
+      margin-top: 20px;
+      padding: 20px;
+      background: var(--card2);
+      border-radius: 18px;
+      border: 1px solid var(--line);
     }
 
     .avatar {
-      width: 100px;
-      height: 100px;
+      width: 105px;
+      height: 105px;
+      margin: 18px auto;
       border-radius: 50%;
-      margin: 20px auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       overflow: hidden;
       background: var(--card2);
       border: 2px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 36px;
       font-weight: 900;
     }
@@ -330,13 +262,243 @@
       object-fit: cover;
     }
 
+    .message {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .switch {
+      margin-top: 18px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .switch button {
+      background: none;
+      border: 0;
+      color: #fff;
+      font-weight: 800;
+      padding: 0;
+      margin-left: 5px;
+    }
+
+    .composer {
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 18px;
+      background: var(--card2);
+      border: 1px solid var(--line);
+    }
+
+    .composer textarea {
+      width: 100%;
+      min-height: 95px;
+      padding: 14px;
+      background: #141a2c;
+      border: 1px solid var(--line);
+      color: #fff;
+      border-radius: 14px;
+      resize: vertical;
+      outline: none;
+    }
+
+    .composer-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .composer-row select {
+      flex: 1;
+      min-width: 0;
+      padding: 12px;
+      background: #141a2c;
+      color: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+
+    .composer-row button {
+      width: auto;
+      padding: 12px 16px;
+      flex-shrink: 0;
+    }
+
+    .post {
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: 18px;
+      background: var(--card2);
+      border: 1px solid var(--line);
+    }
+
+    .post-header {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .post-avatar {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: #fff;
+      color: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    .post-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .post-user {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .post-user strong {
+      display: block;
+      word-break: break-word;
+    }
+
+    .post-user span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .badge {
+      font-size: 11px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .post-text {
+      margin-top: 14px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .post-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .post-actions button {
+      width: auto;
+      padding: 9px 13px;
+      border-radius: 11px;
+      background: transparent;
+      color: #fff;
+      border: 1px solid var(--line);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .post-actions .liked {
+      color: var(--liked);
+      border-color: rgba(255,107,129,.25);
+    }
+
+    .comment-area {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .comment-area input {
+      flex: 1;
+      min-width: 0;
+      padding: 11px;
+      border-radius: 11px;
+      border: 1px solid var(--line);
+      background: #141a2c;
+      color: #fff;
+      outline: none;
+    }
+
+    .comment-area button {
+      width: auto;
+      padding: 11px 14px;
+    }
+
+    .comments {
+      margin-top: 12px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .comment {
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.04);
+    }
+
+    .comment strong {
+      font-size: 13px;
+    }
+
+    .comment span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .empty {
+      margin-top: 18px;
+      padding: 24px 16px;
+      border: 1px dashed var(--line);
+      border-radius: 18px;
+      text-align: center;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+      line-height: 1.5;
+    }
+
     @media (max-width: 520px) {
       .screen {
-        padding: 15px;
+        padding: 12px;
+      }
+
+      .menu {
+        grid-template-columns: 1fr;
+      }
+
+      .composer-row {
+        flex-direction: column;
+      }
+
+      .composer-row button {
+        width: 100%;
       }
 
       .card {
-        padding: 24px 16px;
+        padding: 24px 15px;
       }
     }
   </style>
@@ -346,390 +508,466 @@
 
   <!-- WELCOME -->
   <section id="welcome" class="screen">
-    <div class="card">
+    <div class="container">
+      <div class="card">
 
-      <div class="logo">W!</div>
+        <div class="logo">W!</div>
 
-      <h1>Wawera!</h1>
+        <h1>Wawera!</h1>
 
-      <p class="lead">
-        Uma nova experiência digital para conectar pessoas,
-        ideias e oportunidades.
-      </p>
+        <p class="lead">
+          Uma comunidade para conectar pessoas,
+          partilhar ideias e descobrir oportunidades.
+        </p>
 
-      <div class="actions">
-        <button class="primary" id="startBtn">
-          Começar
-        </button>
+        <div class="actions">
+          <button class="primary" onclick="startApp()">
+            Começar
+          </button>
+        </div>
+
       </div>
-
     </div>
   </section>
 
 
-  <!-- LOGIN / REGISTO -->
+  <!-- AUTENTICAÇÃO -->
   <section id="auth" class="screen hidden">
-    <div class="card">
+    <div class="container">
+      <div class="card">
 
-      <div class="logo">W!</div>
+        <div class="logo">W!</div>
 
-      <h2 id="authTitle">Entrar</h2>
+        <h2 id="authTitle">Entrar</h2>
 
-      <p class="lead" id="authDescription">
-        Entra na tua conta Wawera.
-      </p>
+        <p class="lead" id="authDescription">
+          Entra na tua conta Wawera.
+        </p>
 
-      <form id="authForm" class="form">
+        <form id="authForm" class="form">
 
-        <div class="field hidden" id="nameField">
-          <label for="name">Nome</label>
-          <input
-            id="name"
-            type="text"
-            placeholder="O teu nome"
-            autocomplete="name"
-          >
+          <div class="field hidden" id="nameField">
+            <label for="nameInput">Nome</label>
+            <input
+              id="nameInput"
+              type="text"
+              placeholder="O teu nome"
+              autocomplete="name"
+            >
+          </div>
+
+          <div class="field">
+            <label for="emailInput">Email</label>
+            <input
+              id="emailInput"
+              type="email"
+              placeholder="teuemail@exemplo.com"
+              autocomplete="email"
+              required
+            >
+          </div>
+
+          <div class="field">
+            <label for="passwordInput">Palavra-passe</label>
+            <input
+              id="passwordInput"
+              type="password"
+              placeholder="A tua palavra-passe"
+              autocomplete="current-password"
+              required
+            >
+          </div>
+
+          <button class="primary" type="submit" id="authSubmit">
+            Entrar
+          </button>
+
+        </form>
+
+        <div id="authMessage" class="message hidden"></div>
+
+        <div class="switch">
+          <span id="switchLabel">
+            Ainda não tens conta?
+          </span>
+
+          <button type="button" id="switchAuth">
+            Criar conta
+          </button>
         </div>
 
-        <div class="field">
-          <label for="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            placeholder="teuemail@exemplo.com"
-            autocomplete="email"
-            required
-          >
-        </div>
-
-        <div class="field">
-          <label for="password">Palavra-passe</label>
-          <input
-            id="password"
-            type="password"
-            placeholder="A tua palavra-passe"
-            autocomplete="current-password"
-            required
-          >
-        </div>
-
-        <button class="primary" type="submit" id="submitBtn">
-          Entrar
+        <button
+          class="secondary"
+          style="margin-top:20px"
+          onclick="showPage('welcome')"
+        >
+          Voltar
         </button>
 
-      </form>
+        <p class="footer-note">
+          Nesta versão, os dados são guardados apenas neste navegador.
+        </p>
 
-      <div id="authMessage" class="message hidden"></div>
-
-      <div class="switch">
-        <span id="switchText">Ainda não tens conta?</span>
-        <button type="button" id="switchBtn">
-          Criar conta
-        </button>
       </div>
-
-      <button class="secondary" style="margin-top:20px" onclick="showPage('welcome')">
-        Voltar
-      </button>
-
-      <p class="small">
-        Nesta versão, a conta é uma demonstração local.
-      </p>
-
     </div>
   </section>
 
 
   <!-- DASHBOARD -->
   <section id="dashboard" class="screen hidden">
-    <div class="card">
+    <div class="container">
+      <div class="card">
 
-      <div class="topbar">
+        <div class="topbar">
 
-        <div class="mini-logo">
-          W!
+          <div class="mini-logo">
+            W!
+          </div>
+
+          <div class="topbar-info">
+            <strong>
+              Olá, <span id="dashName">Utilizador</span> 👋🏾
+            </strong>
+
+            <span id="dashEmail"></span>
+          </div>
+
         </div>
 
-        <div class="topbar-text">
-          <strong>
-            Olá, <span id="dashboardName">Utilizador</span> 👋🏾
-          </strong>
+        <h2>Painel Wawera</h2>
 
-          <span id="dashboardEmail"></span>
+        <p class="lead">
+          Escolhe o que queres fazer.
+        </p>
+
+        <div class="menu">
+
+          <button onclick="showPage('explorar')">
+            <strong>🔎 Explorar</strong>
+            <span>
+              Descobre conteúdos e novidades.
+            </span>
+          </button>
+
+          <button onclick="showPage('comunidade')">
+            <strong>👥 Comunidade</strong>
+            <span>
+              Publica e conversa com outras pessoas.
+            </span>
+          </button>
+
+          <button onclick="showPage('oportunidades')">
+            <strong>🚀 Oportunidades</strong>
+            <span>
+              Encontra empregos, projetos e serviços.
+            </span>
+          </button>
+
+          <button onclick="showProfile()">
+            <strong>👤 Perfil</strong>
+            <span>
+              Vê e edita o teu perfil.
+            </span>
+          </button>
+
+        </div>
+
+        <div class="actions">
+          <button class="danger" onclick="logout()">
+            Sair da conta
+          </button>
         </div>
 
       </div>
-
-      <h2>Painel Wawera</h2>
-
-      <p class="lead">
-        Escolhe uma área para continuar.
-      </p>
-
-      <div class="actions">
-
-        <button class="primary" onclick="showPage('explorar')">
-          🔎 Explorar
-        </button>
-
-        <button class="primary" onclick="showPage('comunidade')">
-          👥 Comunidade
-        </button>
-
-        <button class="primary" onclick="showPage('oportunidades')">
-          🚀 Oportunidades
-        </button>
-
-        <button class="primary" onclick="showProfile()">
-          👤 Perfil
-        </button>
-
-        <button class="danger" id="logoutBtn">
-          Sair da conta
-        </button>
-
-      </div>
-
     </div>
   </section>
 
 
   <!-- PERFIL -->
   <section id="perfil" class="screen hidden">
-    <div class="card">
+    <div class="container">
+      <div class="card">
 
-      <div class="avatar" id="profileAvatar">
-        W!
+        <div class="avatar" id="profileAvatar">
+          W!
+        </div>
+
+        <h2 id="profileName">
+          Utilizador
+        </h2>
+
+        <p class="lead" id="profileBio">
+          Ainda não adicionaste uma biografia.
+        </p>
+
+        <div class="profile-card">
+
+          <h3>Email</h3>
+
+          <span
+            id="profileEmail"
+            style="color:var(--muted);font-size:14px"
+          ></span>
+
+        </div>
+
+        <div class="actions">
+
+          <button
+            class="primary"
+            onclick="openProfileEditor()"
+          >
+            ✏️ Editar perfil
+          </button>
+
+          <button
+            class="secondary"
+            onclick="showPage('dashboard')"
+          >
+            Voltar
+          </button>
+
+        </div>
+
       </div>
-
-      <h2 id="profileName">
-        Utilizador
-      </h2>
-
-      <p class="lead" id="profileBio">
-        Ainda não adicionaste uma biografia.
-      </p>
-
-      <div class="profile-box">
-        <h3>Email</h3>
-        <span id="profileEmail"></span>
-      </div>
-
-      <div class="actions">
-
-        <button class="primary" onclick="showPage('editProfile')">
-          Editar perfil
-        </button>
-
-        <button class="secondary" onclick="showPage('dashboard')">
-          Voltar
-        </button>
-
-      </div>
-
     </div>
   </section>
 
 
   <!-- EDITAR PERFIL -->
   <section id="editProfile" class="screen hidden">
-    <div class="card">
+    <div class="container">
+      <div class="card">
 
-      <h2>Editar perfil</h2>
+        <h2>Editar perfil</h2>
 
-      <p class="lead">
-        Atualiza as informações do teu perfil.
-      </p>
+        <p class="lead">
+          Personaliza o teu perfil.
+        </p>
 
-      <div class="avatar" id="avatarPreview">
-        W!
-      </div>
+        <form id="profileForm" class="form">
 
-      <form id="profileForm" class="form">
+          <div class="field">
+            <label for="editName">
+              Nome
+            </label>
 
-        <div class="field">
-          <label for="profileNameInput">Nome</label>
-          <input
-            id="profileNameInput"
-            type="text"
-            placeholder="O teu nome"
-            required
-          >
-        </div>
+            <input
+              id="editName"
+              type="text"
+              required
+              placeholder="O teu nome"
+            >
+          </div>
 
-        <div class="field">
-          <label for="profileBioInput">Biografia</label>
-          <textarea
-            id="profileBioInput"
-            placeholder="Fala um pouco sobre ti..."
-          ></textarea>
-        </div>
+          <div class="field">
+            <label for="editBio">
+              Biografia
+            </label>
 
-        <button class="primary" type="submit">
-          Guardar alterações
+            <textarea
+              id="editBio"
+              maxlength="500"
+              placeholder="Fala um pouco sobre ti..."
+            ></textarea>
+          </div>
+
+          <button class="primary" type="submit">
+            Guardar perfil
+          </button>
+
+        </form>
+
+        <div
+          id="profileMessage"
+          class="message hidden"
+        ></div>
+
+        <button
+          class="secondary"
+          style="margin-top:20px"
+          onclick="showPage('perfil')"
+        >
+          Cancelar
         </button>
 
-      </form>
-
-      <div id="profileMessage" class="message hidden"></div>
-
-      <button class="secondary" style="margin-top:20px" onclick="showPage('perfil')">
-        Cancelar
-      </button>
-
+      </div>
     </div>
   </section>
 
 
   <!-- EXPLORAR -->
   <section id="explorar" class="screen hidden">
-    <div class="card">
+    <div class="container">
+      <div class="card">
 
-      <div class="logo">🔎</div>
+        <div class="logo">🔎</div>
 
-      <h2>Explorar</h2>
+        <h2>Explorar</h2>
 
-      <p class="lead">
-        Descobre conteúdos e novidades da Wawera.
-      </p>
+        <p class="lead">
+          Descobre o que está a acontecer na Wawera.
+        </p>
 
-      <div class="post">
-        <div class="post-content">
-          Aqui vamos colocar conteúdos reais da plataforma.
+        <div class="profile-card">
+
+          <h3>Conteúdos em destaque</h3>
+
+          <span style="color:var(--muted);font-size:14px">
+            Nesta área vamos colocar conteúdos populares
+            e recomendações personalizadas.
+          </span>
+
         </div>
+
+        <div class="profile-card">
+
+          <h3>Novidades</h3>
+
+          <span style="color:var(--muted);font-size:14px">
+            As novidades da plataforma aparecerão aqui.
+          </span>
+
+        </div>
+
+        <button
+          class="secondary"
+          style="margin-top:20px"
+          onclick="showPage('dashboard')"
+        >
+          Voltar
+        </button>
+
       </div>
-
-      <button class="secondary" style="margin-top:20px" onclick="showPage('dashboard')">
-        Voltar
-      </button>
-
     </div>
   </section>
 
 
   <!-- COMUNIDADE -->
   <section id="comunidade" class="screen hidden">
-    <div class="card">
+    <div class="container">
+      <div class="card">
 
-      <h2>Comunidade 👥</h2>
+        <h2>Comunidade 👥</h2>
 
-      <p class="lead">
-        Publica, partilha e conversa com outras pessoas.
-      </p>
+        <p class="lead">
+          Partilha algo com a comunidade.
+        </p>
 
-      <div class="actions">
+        <div class="composer">
 
-        <button class="primary" onclick="showPage('newPost')">
-          ✏️ Criar publicação
+          <textarea
+            id="postInput"
+            maxlength="1000"
+            placeholder="O que estás a pensar?"
+          ></textarea>
+
+          <div class="composer-row">
+
+            <select id="postCategory">
+              <option value="Geral">
+                Geral
+              </option>
+
+              <option value="Ideias">
+                Ideias
+              </option>
+
+              <option value="Emprego">
+                Emprego
+              </option>
+
+              <option value="Negócios">
+                Negócios
+              </option>
+
+              <option value="Tecnologia">
+                Tecnologia
+              </option>
+
+              <option value="Entretenimento">
+                Entretenimento
+              </option>
+            </select>
+
+            <button
+              class="primary"
+              onclick="createPost()"
+            >
+              Publicar
+            </button>
+
+          </div>
+
+        </div>
+
+        <div id="feed"></div>
+
+        <button
+          class="secondary"
+          style="margin-top:22px"
+          onclick="showPage('dashboard')"
+        >
+          Voltar ao painel
         </button>
 
       </div>
-
-      <div id="feed"></div>
-
-      <button class="secondary" style="margin-top:22px" onclick="showPage('dashboard')">
-        Voltar ao painel
-      </button>
-
-    </div>
-  </section>
-
-
-  <!-- NOVA PUBLICAÇÃO -->
-  <section id="newPost" class="screen hidden">
-    <div class="card">
-
-      <h2>Nova publicação</h2>
-
-      <p class="lead">
-        Partilha algo com a comunidade.
-      </p>
-
-      <form id="postForm" class="form">
-
-        <div class="field">
-          <label for="postCategory">
-            Categoria
-          </label>
-
-          <select id="postCategory">
-            <option value="Geral">Geral</option>
-            <option value="Ideias">Ideias</option>
-            <option value="Emprego">Emprego</option>
-            <option value="Negócios">Negócios</option>
-            <option value="Tecnologia">Tecnologia</option>
-            <option value="Entretenimento">Entretenimento</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="postText">
-            Publicação
-          </label>
-
-          <textarea
-            id="postText"
-            maxlength="1000"
-            placeholder="O que queres partilhar?"
-            required
-          ></textarea>
-        </div>
-
-        <button class="primary" type="submit">
-          Publicar
-        </button>
-
-      </form>
-
-      <button class="secondary" style="margin-top:20px" onclick="showPage('comunidade')">
-        Cancelar
-      </button>
-
     </div>
   </section>
 
 
   <!-- OPORTUNIDADES -->
   <section id="oportunidades" class="screen hidden">
-    <div class="card">
+    <div class="container">
+      <div class="card">
 
-      <div class="logo">🚀</div>
+        <div class="logo">🚀</div>
 
-      <h2>Oportunidades</h2>
+        <h2>Oportunidades</h2>
 
-      <p class="lead">
-        Encontra empregos, projetos e serviços.
-      </p>
+        <p class="lead">
+          Encontra oportunidades profissionais e projetos.
+        </p>
 
-      <div class="list">
+        <div class="profile-card">
 
-        <div class="profile-box">
-          <h3>Empregos</h3>
-          <span>
-            Em breve poderemos apresentar vagas.
+          <h3>💼 Empregos</h3>
+
+          <span style="color:var(--muted);font-size:14px">
+            Em breve poderás encontrar vagas na plataforma.
           </span>
+
         </div>
 
-        <div class="profile-box">
-          <h3>Projetos</h3>
-          <span>
-            Espaço para projetos e colaborações.
+        <div class="profile-card">
+
+          <h3>🤝 Projetos</h3>
+
+          <span style="color:var(--muted);font-size:14px">
+            Espaço para colaborações e projetos.
           </span>
+
         </div>
 
-        <div class="profile-box">
-          <h3>Serviços</h3>
-          <span>
-            Utilizadores poderão apresentar serviços.
+        <div class="profile-card">
+
+          <h3>🛠️ Serviços</h3>
+
+          <span style="color:var(--muted);font-size:14px">
+            Utilizadores poderão oferecer e procurar serviços.
           </span>
+
         </div>
+
+        <button
+          class="secondary"
+          style="margin-top:22px"
+          onclick="showPage('dashboard')"
+        >
+          Voltar
+        </button>
 
       </div>
-
-      <button class="secondary" style="margin-top:22px" onclick="showPage('dashboard')">
-        Voltar
-      </button>
-
     </div>
   </section>
 
@@ -744,7 +982,6 @@
       "editProfile",
       "explorar",
       "comunidade",
-      "newPost",
       "oportunidades"
     ];
 
@@ -783,6 +1020,17 @@
     }
 
 
+    function startApp() {
+
+      registerMode = false;
+
+      updateAuthMode();
+
+      showPage("auth");
+
+    }
+
+
     function updateAuthMode() {
 
       const title =
@@ -795,19 +1043,19 @@
         document.getElementById("nameField");
 
       const nameInput =
-        document.getElementById("name");
+        document.getElementById("nameInput");
 
-      const submitBtn =
-        document.getElementById("submitBtn");
+      const submit =
+        document.getElementById("authSubmit");
 
-      const switchText =
-        document.getElementById("switchText");
+      const switchLabel =
+        document.getElementById("switchLabel");
 
-      const switchBtn =
-        document.getElementById("switchBtn");
+      const switchButton =
+        document.getElementById("switchAuth");
 
       const password =
-        document.getElementById("password");
+        document.getElementById("passwordInput");
 
 
       document
@@ -831,13 +1079,13 @@
         nameInput.required =
           true;
 
-        submitBtn.textContent =
+        submit.textContent =
           "Criar conta";
 
-        switchText.textContent =
+        switchLabel.textContent =
           "Já tens uma conta?";
 
-        switchBtn.textContent =
+        switchButton.textContent =
           "Entrar";
 
         password.autocomplete =
@@ -858,13 +1106,13 @@
         nameInput.required =
           false;
 
-        submitBtn.textContent =
+        submit.textContent =
           "Entrar";
 
-        switchText.textContent =
+        switchLabel.textContent =
           "Ainda não tens conta?";
 
-        switchBtn.textContent =
+        switchButton.textContent =
           "Criar conta";
 
         password.autocomplete =
@@ -875,20 +1123,7 @@
 
 
     document
-      .getElementById("startBtn")
-      .addEventListener("click", () => {
-
-        registerMode = false;
-
-        updateAuthMode();
-
-        showPage("auth");
-
-      });
-
-
-    document
-      .getElementById("switchBtn")
+      .getElementById("switchAuth")
       .addEventListener("click", () => {
 
         registerMode =
@@ -908,21 +1143,21 @@
 
         const name =
           document
-            .getElementById("name")
+            .getElementById("nameInput")
             .value
             .trim();
 
 
         const email =
           document
-            .getElementById("email")
+            .getElementById("emailInput")
             .value
             .trim();
 
 
         const password =
           document
-            .getElementById("password")
+            .getElementById("passwordInput")
             .value;
 
 
@@ -943,6 +1178,7 @@
             .remove("hidden");
 
           return;
+
         }
 
 
@@ -959,6 +1195,7 @@
             .remove("hidden");
 
           return;
+
         }
 
 
@@ -967,8 +1204,8 @@
             ? name
             : (
                 localStorage
-                  .getItem("wawera_name") ||
-                "Utilizador"
+                  .getItem("wawera_name")
+                || "Utilizador"
               );
 
 
@@ -1011,35 +1248,30 @@
 
       const name =
         localStorage
-          .getItem("wawera_name") ||
-        "Utilizador";
+          .getItem("wawera_name")
+        || "Utilizador";
 
 
       const email =
         localStorage
-          .getItem("wawera_email") ||
-        "";
+          .getItem("wawera_email")
+        || "";
 
 
       const bio =
         localStorage
-          .getItem("wawera_bio") ||
-        "";
-
-
-      const photo =
-        localStorage
-          .getItem("wawera_photo");
+          .getItem("wawera_bio")
+        || "";
 
 
       document
-        .getElementById("dashboardName")
+        .getElementById("dashName")
         .textContent =
         name;
 
 
       document
-        .getElementById("dashboardEmail")
+        .getElementById("dashEmail")
         .textContent =
         email;
 
@@ -1063,35 +1295,40 @@
         "Ainda não adicionaste uma biografia.";
 
 
-      const avatar =
+      updateAvatar();
+
+    }
+
+
+    function updateAvatar() {
+
+      const name =
+        localStorage
+          .getItem("wawera_name")
+        || "Wawera";
+
+
+      const photo =
+        localStorage
+          .getItem("wawera_photo");
+
+
+      const profileAvatar =
         document.getElementById("profileAvatar");
-
-
-      const preview =
-        document.getElementById("avatarPreview");
 
 
       if (photo) {
 
-        avatar.innerHTML =
-          '<img src="' +
-          photo +
-          '" alt="Foto de perfil">';
-
-
-        preview.innerHTML =
+        profileAvatar.innerHTML =
           '<img src="' +
           photo +
           '" alt="Foto de perfil">';
 
       } else {
 
-        avatar.textContent =
+        profileAvatar.textContent =
           getInitials(name);
 
-
-        preview.textContent =
-          getInitials(name);
       }
 
     }
@@ -1128,11 +1365,31 @@
     }
 
 
-    function showProfile() {
+    function openProfileEditor() {
 
-      updateProfileView();
+      document
+        .getElementById("editName")
+        .value =
+          localStorage
+            .getItem("wawera_name")
+          || "";
 
-      showPage("perfil");
+
+      document
+        .getElementById("editBio")
+        .value =
+          localStorage
+            .getItem("wawera_bio")
+          || "";
+
+
+      document
+        .getElementById("profileMessage")
+        .classList
+        .add("hidden");
+
+
+      showPage("editProfile");
 
     }
 
@@ -1146,20 +1403,21 @@
 
         const name =
           document
-            .getElementById("profileNameInput")
+            .getElementById("editName")
             .value
             .trim();
 
 
         const bio =
           document
-            .getElementById("profileBioInput")
+            .getElementById("editBio")
             .value
             .trim();
 
 
         const message =
-          document.getElementById("profileMessage");
+          document
+            .getElementById("profileMessage");
 
 
         if (!name) {
@@ -1172,6 +1430,7 @@
             .remove("hidden");
 
           return;
+
         }
 
 
@@ -1187,15 +1446,15 @@
         );
 
 
+        updateProfileView();
+
+
         message.textContent =
           "Perfil atualizado com sucesso.";
 
         message
           .classList
           .remove("hidden");
-
-
-        updateProfileView();
 
 
         setTimeout(() => {
@@ -1207,85 +1466,101 @@
       });
 
 
-    document
-      .getElementById("logoutBtn")
-      .addEventListener("click", () => {
+    function showProfile() {
 
-        showPage("welcome");
+      updateProfileView();
 
-      });
+      showPage("perfil");
 
-
-    document
-      .getElementById("postForm")
-      .addEventListener("submit", event => {
-
-        event.preventDefault();
+    }
 
 
-        const text =
-          document
-            .getElementById("postText")
-            .value
-            .trim();
+    function logout() {
+
+      showPage("welcome");
+
+    }
 
 
-        const category =
-          document
-            .getElementById("postCategory")
-            .value;
+    function createPost() {
+
+      const input =
+        document.getElementById("postInput");
+
+      const category =
+        document.getElementById("postCategory");
 
 
-        if (!text) {
-          return;
-        }
+      const text =
+        input.value.trim();
 
 
-        const author =
-          localStorage
-            .getItem("wawera_name") ||
-          "Utilizador";
+      if (!text) {
+
+        alert(
+          "Escreve alguma coisa antes de publicar."
+        );
+
+        return;
+
+      }
 
 
-        const posts =
-          JSON.parse(
-            localStorage
-              .getItem("wawera_posts") ||
-            "[]"
-          );
-
-
-        posts.unshift({
-
-          id: Date.now(),
-
-          author: author,
-
-          category: category,
-
-          text: text,
-
-          date:
-            new Date()
-              .toLocaleString("pt-PT")
-
-        });
-
-
-        localStorage.setItem(
-          "wawera_posts",
-          JSON.stringify(posts)
+      const posts =
+        JSON.parse(
+          localStorage.getItem(
+            "wawera_posts"
+          ) || "[]"
         );
 
 
-        document
-          .getElementById("postText")
-          .value = "";
+      const post = {
+
+        id: Date.now(),
+
+        author:
+          localStorage
+            .getItem("wawera_name")
+          || "Utilizador",
+
+        email:
+          localStorage
+            .getItem("wawera_email")
+          || "",
+
+        category:
+          category.value,
+
+        text:
+          text,
+
+        likes: 0,
+
+        liked: false,
+
+        comments: [],
+
+        date:
+          new Date()
+            .toLocaleString("pt-PT")
+
+      };
 
 
-        showPage("comunidade");
+      posts.unshift(post);
 
-      });
+
+      localStorage.setItem(
+        "wawera_posts",
+        JSON.stringify(posts)
+      );
+
+
+      input.value = "";
+
+      renderFeed();
+
+    }
 
 
     function renderFeed() {
@@ -1296,9 +1571,9 @@
 
       const posts =
         JSON.parse(
-          localStorage
-            .getItem("wawera_posts") ||
-          "[]"
+          localStorage.getItem(
+            "wawera_posts"
+          ) || "[]"
         );
 
 
@@ -1307,7 +1582,7 @@
         feed.innerHTML = `
           <div class="empty">
             Ainda não existem publicações.<br>
-            Sê o primeiro a publicar!
+            Sê a primeira pessoa a publicar!
           </div>
         `;
 
@@ -1318,70 +1593,144 @@
 
       feed.innerHTML =
         posts
-          .map(post => `
-            <article class="post">
-
-              <div class="post-head">
-
-                <div class="post-author">
-                  <strong>
-                    ${escapeHtml(post.author)}
-                  </strong>
-
-                  <span>
-                    ${escapeHtml(post.date)}
-                  </span>
-                </div>
-
-                <div class="category">
-                  ${escapeHtml(post.category)}
-                </div>
-
-              </div>
-
-              <div class="post-content">
-                ${escapeHtml(post.text)}
-              </div>
-
-              <div class="post-actions">
-
-                <button
-                  class="secondary"
-                  onclick="likePost(${post.id})"
-                >
-                  ❤️ Gostar
-                </button>
-
-                <button
-                  class="secondary"
-                  onclick="deletePost(${post.id})"
-                >
-                  🗑️ Apagar
-                </button>
-
-              </div>
-
-            </article>
-          `)
+          .map(post => renderPost(post))
           .join("");
 
     }
 
 
-    function likePost(id) {
+    function renderPost(post) {
 
-      alert("Gostei! ❤️");
+      const currentUser =
+        localStorage
+          .getItem("wawera_name")
+        || "Utilizador";
+
+
+      const isOwner =
+        post.author === currentUser;
+
+
+      const photo =
+        localStorage
+          .getItem("wawera_photo");
+
+
+      const avatarHtml =
+        photo
+          ? '<img src="' +
+            photo +
+            '" alt="Avatar">'
+          : getInitials(post.author);
+
+
+      const comments =
+        (post.comments || [])
+          .map(comment => `
+            <div class="comment">
+              <strong>
+                ${escapeHtml(comment.author)}
+              </strong>
+              <span>
+                ${escapeHtml(comment.text)}
+              </span>
+            </div>
+          `)
+          .join("");
+
+
+      return `
+        <article class="post">
+
+          <div class="post-header">
+
+            <div class="post-avatar">
+              ${avatarHtml}
+            </div>
+
+            <div class="post-user">
+              <strong>
+                ${escapeHtml(post.author)}
+              </strong>
+
+              <span>
+                ${escapeHtml(post.date)}
+              </span>
+            </div>
+
+            <div class="badge">
+              ${escapeHtml(post.category)}
+            </div>
+
+          </div>
+
+
+          <div class="post-text">
+            ${escapeHtml(post.text)}
+          </div>
+
+
+          <div class="post-actions">
+
+            <button
+              class="${post.liked ? "liked" : ""}"
+              onclick="toggleLike(${post.id})"
+            >
+              ❤️ ${post.likes || 0}
+            </button>
+
+
+            ${
+              isOwner
+                ? `
+                  <button
+                    onclick="deletePost(${post.id})"
+                  >
+                    🗑️ Apagar
+                  </button>
+                `
+                : ""
+            }
+
+          </div>
+
+
+          <div class="comment-area">
+
+            <input
+              id="comment-${post.id}"
+              type="text"
+              maxlength="300"
+              placeholder="Escreve um comentário..."
+            >
+
+            <button
+              class="secondary"
+              onclick="addComment(${post.id})"
+            >
+              Comentar
+            </button>
+
+          </div>
+
+
+          <div class="comments">
+            ${comments}
+          </div>
+
+        </article>
+      `;
 
     }
 
 
-    function deletePost(id) {
+    function toggleLike(id) {
 
       const posts =
         JSON.parse(
-          localStorage
-            .getItem("wawera_posts") ||
-          "[]"
+          localStorage.getItem(
+            "wawera_posts"
+          ) || "[]"
         );
 
 
@@ -1394,10 +1743,123 @@
       }
 
 
+      if (post.liked) {
+
+        post.likes =
+          Math.max(
+            0,
+            (post.likes || 0) - 1
+          );
+
+        post.liked = false;
+
+      } else {
+
+        post.likes =
+          (post.likes || 0) + 1;
+
+        post.liked = true;
+
+      }
+
+
+      localStorage.setItem(
+        "wawera_posts",
+        JSON.stringify(posts)
+      );
+
+
+      renderFeed();
+
+    }
+
+
+    function addComment(id) {
+
+      const input =
+        document.getElementById(
+          "comment-" + id
+        );
+
+
+      const text =
+        input.value.trim();
+
+
+      if (!text) {
+        return;
+      }
+
+
+      const posts =
+        JSON.parse(
+          localStorage.getItem(
+            "wawera_posts"
+          ) || "[]"
+        );
+
+
+      const post =
+        posts.find(item => item.id === id);
+
+
+      if (!post) {
+        return;
+      }
+
+
+      if (!post.comments) {
+        post.comments = [];
+      }
+
+
+      post.comments.push({
+
+        author:
+          localStorage
+            .getItem("wawera_name")
+          || "Utilizador",
+
+        text:
+          text
+
+      });
+
+
+      localStorage.setItem(
+        "wawera_posts",
+        JSON.stringify(posts)
+      );
+
+
+      renderFeed();
+
+    }
+
+
+    function deletePost(id) {
+
+      const posts =
+        JSON.parse(
+          localStorage.getItem(
+            "wawera_posts"
+          ) || "[]"
+        );
+
+
       const currentUser =
         localStorage
-          .getItem("wawera_name") ||
-        "Utilizador";
+          .getItem("wawera_name")
+        || "Utilizador";
+
+
+      const post =
+        posts.find(item => item.id === id);
+
+
+      if (!post) {
+        return;
+      }
 
 
       if (post.author !== currentUser) {
@@ -1407,6 +1869,7 @@
         );
 
         return;
+
       }
 
 
@@ -1439,47 +1902,9 @@
     }
 
 
-    function loadProfileEditor() {
-
-      document
-        .getElementById("profileNameInput")
-        .value =
-          localStorage
-            .getItem("wawera_name") ||
-          "";
-
-
-      document
-        .getElementById("profileBioInput")
-        .value =
-          localStorage
-            .getItem("wawera_bio") ||
-          "";
-
-    }
-
-
-    const originalShowPage =
-      showPage;
-
-
-    window.showPage =
-      function(page) {
-
-        if (page === "editProfile") {
-          loadProfileEditor();
-        }
-
-        originalShowPage(page);
-
-      };
-
-
     updateProfileView();
 
-
     updateAuthMode();
-
 
     renderFeed();
 
