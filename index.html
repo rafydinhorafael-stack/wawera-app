@@ -1701,396 +1701,471 @@ document
       showPage("welcome");
 
     }
+function createPost() {
 
+  const input =
+    document.getElementById("postInput");
 
-    function createPost() {
+  const category =
+    document.getElementById("postCategory");
 
-      const input =
-        document.getElementById("postInput");
+  const text =
+    input.value.trim();
 
-      const category =
-        document.getElementById(
-          "postCategory"
+  const userId =
+    localStorage.getItem("wawera_id");
+
+  if (!userId) {
+    alert("Entra na tua conta para publicar.");
+    return;
+  }
+
+  if (!text) {
+    alert("Escreve alguma coisa antes de publicar.");
+    return;
+  }
+
+  fetch(API_URL + "/api/posts", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      user_id: userId,
+      text: text,
+      category: category.value
+    })
+  })
+    .then(async response => {
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(
+          data.message ||
+          "Não foi possível publicar."
         );
-
-
-      const text =
-        input.value.trim();
-
-
-      if (!text) {
-
-        alert(
-          "Escreve alguma coisa antes de publicar."
-        );
-
-        return;
-
       }
-
-
-      const posts =
-        JSON.parse(
-          localStorage.getItem(
-            "wawera_posts"
-          ) || "[]"
-        );
-
-
-      posts.unshift({
-
-        id: Date.now(),
-
-        author:
-          localStorage
-            .getItem("wawera_name")
-          || "Utilizador",
-
-        category:
-          category.value,
-
-        text:
-          text,
-
-        likes: 0,
-
-        liked: false,
-
-        comments: [],
-
-        date:
-          new Date()
-            .toLocaleString("pt-PT")
-
-      });
-
-
-      localStorage.setItem(
-        "wawera_posts",
-        JSON.stringify(posts)
-      );
-
 
       input.value = "";
 
       renderFeed();
+    })
+    .catch(error => {
+      alert(error.message);
+    });
+}
 
+
+async function renderFeed() {
+
+  const feed =
+    document.getElementById("feed");
+
+  if (!feed) {
+    return;
+  }
+
+  feed.innerHTML =
+    `
+      <div class="empty">
+        A carregar publicações...
+      </div>
+    `;
+
+  try {
+
+    const userId =
+      localStorage.getItem("wawera_id") || "";
+
+    const url =
+      API_URL +
+      "/api/posts" +
+      (
+        userId
+          ? "?user_id=" +
+            encodeURIComponent(userId)
+          : ""
+      );
+
+    const response =
+      await fetch(url);
+
+    const data =
+      await response.json();
+
+    if (
+      !response.ok ||
+      !data.success
+    ) {
+      throw new Error(
+        data.message ||
+        "Não foi possível carregar as publicações."
+      );
     }
 
+    const posts =
+      data.posts || [];
 
-    function renderFeed() {
+    if (!posts.length) {
 
-      const feed =
-        document.getElementById("feed");
-
-
-      const posts =
-        JSON.parse(
-          localStorage.getItem(
-            "wawera_posts"
-          ) || "[]"
-        );
-
-
-      if (!posts.length) {
-
-        feed.innerHTML = `
+      feed.innerHTML =
+        `
           <div class="empty">
             Ainda não existem publicações.<br>
             Sê a primeira pessoa a publicar!
           </div>
         `;
 
-        return;
-
-      }
-
-
-      feed.innerHTML =
-        posts
-          .map(post => renderPost(post))
-          .join("");
-
+      return;
     }
 
+    feed.innerHTML =
+      posts
+        .map(post =>
+          renderPost(post)
+        )
+        .join("");
 
-    function renderPost(post) {
+  } catch (error) {
 
-      const currentUser =
-        localStorage
-          .getItem("wawera_name")
-        || "Utilizador";
-
-
-      const isOwner =
-        post.author === currentUser;
-
-
-      return `
-        <article class="post">
-
-          <div class="post-header">
-
-            <div class="post-avatar">
-              ${getInitials(post.author)}
-            </div>
-
-            <div class="post-user">
-
-              <strong>
-                ${escapeHtml(post.author)}
-              </strong>
-
-              <span>
-                ${escapeHtml(post.date)}
-              </span>
-
-            </div>
-
-            <div class="badge">
-              ${escapeHtml(post.category)}
-            </div>
-
-          </div>
-
-
-          <div class="post-text">
-            ${escapeHtml(post.text)}
-          </div>
-
-
-          <div class="post-actions">
-
-            <button
-              class="${post.liked ? "liked" : ""}"
-              onclick="toggleLike(${post.id})"
-            >
-              ❤️ ${post.likes || 0}
-            </button>
-
-            ${
-              isOwner
-                ? `
-                  <button
-                    onclick="deletePost(${post.id})"
-                  >
-                    🗑️ Apagar
-                  </button>
-                `
-                : ""
-            }
-
-          </div>
-
-
-          <div class="comment-area">
-
-            <input
-              id="comment-${post.id}"
-              type="text"
-              maxlength="300"
-              placeholder="Escreve um comentário..."
-            >
-
-            <button
-              class="secondary"
-              onclick="addComment(${post.id})"
-            >
-              Comentar
-            </button>
-
-          </div>
-
-
-          <div class="comments">
-
-            ${
-              (post.comments || [])
-                .map(comment => `
-                  <div class="comment">
-                    <strong>
-                      ${escapeHtml(comment.author)}
-                    </strong>
-
-                    <span>
-                      ${escapeHtml(comment.text)}
-                    </span>
-                  </div>
-                `)
-                .join("")
-            }
-
-          </div>
-
-        </article>
+    feed.innerHTML =
+      `
+        <div class="empty">
+          ❌ ${escapeHtml(error.message)}
+        </div>
       `;
-
-    }
-
-
-    function toggleLike(id) {
-
-      const posts =
-        JSON.parse(
-          localStorage.getItem(
-            "wawera_posts"
-          ) || "[]"
-        );
+  }
+}
 
 
-      const post =
-        posts.find(item => item.id === id);
+function renderPost(post) {
+
+  const userId =
+    localStorage.getItem("wawera_id");
+
+  const isOwner =
+    String(post.user_id) ===
+    String(userId);
+
+  const liked =
+    Boolean(post.liked_by_me);
+
+  return `
+    <article class="post">
+
+      <div class="post-header">
+
+        <div class="post-avatar">
+          ${getInitials(
+            post.author_name ||
+            "Utilizador"
+          )}
+        </div>
+
+        <div class="post-user">
+
+          <strong>
+            ${escapeHtml(
+              post.author_name ||
+              "Utilizador"
+            )}
+          </strong>
+
+          <span>
+            ${escapeHtml(
+              post.created_at_display ||
+              ""
+            )}
+          </span>
+
+        </div>
+
+        <div class="badge">
+          ${escapeHtml(
+            post.category ||
+            "Geral"
+          )}
+        </div>
+
+      </div>
 
 
-      if (!post) {
-        return;
-      }
+      <div class="post-text">
+        ${escapeHtml(
+          post.text
+        )}
+      </div>
 
 
-      if (post.liked) {
+      <div class="post-actions">
 
-        post.likes =
-          Math.max(
-            0,
-            (post.likes || 0) - 1
-          );
+        <button
+          class="${liked ? "liked" : ""}"
+          onclick="toggleLike(${post.id})"
+        >
+          ❤️ ${Number(
+            post.likes || 0
+          )}
+        </button>
 
-        post.liked = false;
+        ${
+          isOwner
+            ? `
+              <button
+                onclick="deletePost(${post.id})"
+              >
+                🗑️ Apagar
+              </button>
+            `
+            : ""
+        }
 
-      } else {
-
-        post.likes =
-          (post.likes || 0) + 1;
-
-        post.liked = true;
-
-      }
+      </div>
 
 
-      localStorage.setItem(
-        "wawera_posts",
-        JSON.stringify(posts)
+      <div class="comment-area">
+
+        <input
+          id="comment-${post.id}"
+          type="text"
+          maxlength="300"
+          placeholder="Escreve um comentário..."
+        >
+
+        <button
+          class="secondary"
+          onclick="addComment(${post.id})"
+        >
+          Comentar
+        </button>
+
+      </div>
+
+
+      <div class="comments">
+
+        ${
+          (post.comments || [])
+            .map(comment => `
+              <div class="comment">
+
+                <strong>
+                  ${escapeHtml(
+                    comment.author_name ||
+                    "Utilizador"
+                  )}
+                </strong>
+
+                <span>
+                  ${escapeHtml(
+                    comment.text
+                  )}
+                </span>
+
+              </div>
+            `)
+            .join("")
+        }
+
+      </div>
+
+    </article>
+  `;
+}
+
+
+async function toggleLike(id) {
+
+  const userId =
+    localStorage.getItem("wawera_id");
+
+  if (!userId) {
+    alert(
+      "Entra na tua conta para gostar."
+    );
+    return;
+  }
+
+  try {
+
+    const response =
+      await fetch(
+        API_URL +
+        "/api/posts/" +
+        id +
+        "/like",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+          body:
+            JSON.stringify({
+              user_id: userId
+            })
+        }
       );
 
+    const data =
+      await response.json();
 
-      renderFeed();
-
+    if (
+      !response.ok ||
+      !data.success
+    ) {
+      throw new Error(
+        data.message ||
+        "Não foi possível alterar o gosto."
+      );
     }
 
+    await renderFeed();
 
-    function addComment(id) {
+  } catch (error) {
 
-      const input =
-        document.getElementById(
-          "comment-" + id
-        );
-
-
-      const text =
-        input.value.trim();
+    alert(
+      error.message
+    );
+  }
+}
 
 
-      if (!text) {
-        return;
-      }
+async function addComment(id) {
 
+  const input =
+    document.getElementById(
+      "comment-" + id
+    );
 
-      const posts =
-        JSON.parse(
-          localStorage.getItem(
-            "wawera_posts"
-          ) || "[]"
-        );
+  const text =
+    input.value.trim();
 
+  const userId =
+    localStorage.getItem(
+      "wawera_id"
+    );
 
-      const post =
-        posts.find(item => item.id === id);
+  if (!userId) {
+    alert(
+      "Entra na tua conta para comentar."
+    );
+    return;
+  }
 
+  if (!text) {
+    return;
+  }
 
-      if (!post) {
-        return;
-      }
+  try {
 
-
-      if (!post.comments) {
-        post.comments = [];
-      }
-
-
-      post.comments.push({
-
-        author:
-          localStorage
-            .getItem("wawera_name")
-          || "Utilizador",
-
-        text:
-          text
-
-      });
-
-
-      localStorage.setItem(
-        "wawera_posts",
-        JSON.stringify(posts)
+    const response =
+      await fetch(
+        API_URL +
+        "/api/posts/" +
+        id +
+        "/comments",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+          body:
+            JSON.stringify({
+              user_id: userId,
+              text: text
+            })
+        }
       );
 
+    const data =
+      await response.json();
 
-      renderFeed();
-
+    if (
+      !response.ok ||
+      !data.success
+    ) {
+      throw new Error(
+        data.message ||
+        "Não foi possível comentar."
+      );
     }
 
+    await renderFeed();
 
-    function deletePost(id) {
+  } catch (error) {
 
-      const posts =
-        JSON.parse(
-          localStorage.getItem(
-            "wawera_posts"
-          ) || "[]"
-        );
-
-
-      const currentUser =
-        localStorage
-          .getItem("wawera_name")
-        || "Utilizador";
+    alert(
+      error.message
+    );
+  }
+}
 
 
-      const post =
-        posts.find(item => item.id === id);
+async function deletePost(id) {
 
+  const userId =
+    localStorage.getItem(
+      "wawera_id"
+    );
 
-      if (!post) {
-        return;
-      }
+  if (!userId) {
+    return;
+  }
 
+  if (
+    !confirm(
+      "Apagar esta publicação?"
+    )
+  ) {
+    return;
+  }
 
-      if (post.author !== currentUser) {
+  try {
 
-        alert(
-          "Só podes apagar as tuas próprias publicações."
-        );
-
-        return;
-      }
-
-
-      const filtered =
-        posts.filter(
-          item => item.id !== id
-        );
-
-
-      localStorage.setItem(
-        "wawera_posts",
-        JSON.stringify(filtered)
+    const response =
+      await fetch(
+        API_URL +
+        "/api/posts/" +
+        id,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+          body:
+            JSON.stringify({
+              user_id: userId
+            })
+        }
       );
 
+    const data =
+      await response.json();
 
-      renderFeed();
-
+    if (
+      !response.ok ||
+      !data.success
+    ) {
+      throw new Error(
+        data.message ||
+        "Não foi possível apagar."
+      );
     }
+
+    await renderFeed();
+
+  } catch (error) {
+
+    alert(
+      error.message
+    );
+  }
+}
+
+ 
 
 
     function escapeHtml(value) {
