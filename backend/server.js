@@ -1,9 +1,32 @@
 const http = require("http");
 const crypto = require("crypto");
+const { Pool } = require("pg");
 
 const PORT = process.env.PORT || 3000;
 
-const users = [];
+if (!process.env.DATABASE_URL) {
+  console.error("DATABASE_URL não configurada.");
+  process.exit(1);
+}
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  max: 5,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 5000
+});
+
+async function initDatabase() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS users (
+      id UUID PRIMARY KEY,
+      name TEXT NOT NULL,
+      email TEXT NOT NULL UNIQUE,
+      password TEXT NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )
+  `);
+}
 
 function sendJson(res, statusCode, data) {
   res.writeHead(statusCode, {
@@ -49,13 +72,26 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // Teste do servidor
+  // Verificar backend + base de dados
   if (req.method === "GET" && req.url === "/api/health") {
-    sendJson(res, 200, {
-      app: "Wawera",
-      status: "online",
-      message: "Backend da Wawera está funcionando!"
-    });
+    try {
+      await pool.query("SELECT 1");
+
+      sendJson(res, 200, {
+        app: "Wawera",
+        status: "online",
+        database: "online",
+        message: "Backend da Wawera está funcionando!"
+      });
+    } catch {
+      sendJson(res, 503, {
+        app: "Wawera",
+        status: "online",
+        database: "offline",
+        message: "Backend online, mas a base de dados está indisponível."
+      });
+    }
+
     return;
   }
 
@@ -72,41 +108,72 @@ const server = http.createServer(async (req, res) => {
         return;
       }
 
+      const trimmedName = String(name).trim();
       const normalizedEmail = String(email).trim().toLowerCase();
+      const plainPassword = String(password);
 
-      if (users.some(user => user.email === normalizedEmail)) {
-        sendJson(res, 409, {
+      if (trimmedName.length < 2) {
+        sendJson(res, 400, {
           success: false,
-          message: "Este email já está registado."
+          message: "O nome deve ter pelo menos 2 caracteres."
         });
         return;
       }
 
-      const user = {
-        id: crypto.randomUUID(),
-        name: String(name).trim(),
-        email: normalizedEmail,
-        password: hashPassword(password)
-      };
+      if (plainPassword.length < 6) {
+        sendJson(res, 400, {
+          success: false,
+          message: "A palavra-passe deve ter pelo menos 6 caracteres."
+        });
+        return;
+      }
 
-      users.push(user);
+      const id = crypto.randomUUID();
+      const passwordHash = hashPassword(plainPassword);
+
+      try {
+        await pool.query(
+          `INSERT INTO users (id, name, email, password)
+           VALUES ($1, $2, $3, $4)`,
+          [
+            id,
+            trimmedName,
+            normalizedEmail,
+            passwordHash
+          ]
+        );
+      } catch (error) {
+        if (error && error.code === "23505") {
+          sendJson(res, 409, {
+            success: false,
+            message: "Este email já está registado."
+          });
+          return;
+        }
+
+        throw error;
+      }
 
       sendJson(res, 201, {
         success: true,
         message: "Conta criada com sucesso.",
         user: {
-          id: user.id,
-          name: user.name,
-          email: user.email
+          id,
+          name: trimmedName,
+          email: normalizedEmail
         }
       });
 
       return;
+
     } catch (error) {
-      sendJson(res, 400, {
+      console.error("Erro no registo:", error);
+
+      sendJson(res, 500, {
         success: false,
         message: "Não foi possível criar a conta."
       });
+
       return;
     }
   }
@@ -116,16 +183,25 @@ const server = http.createServer(async (req, res) => {
     try {
       const { email, password } = await readBody(req);
 
-      const normalizedEmail = String(email || "").trim().toLowerCase();
-      const hashedPassword = hashPassword(String(password || ""));
+      const normalizedEmail =
+        String(email || "").trim().toLowerCase();
 
-      const user = users.find(
-        item =>
-          item.email === normalizedEmail &&
-          item.password === hashedPassword
+      const hashedPassword =
+        hashPassword(String(password || ""));
+
+      const result = await pool.query(
+        `SELECT id, name, email
+         FROM users
+         WHERE email = $1
+           AND password = $2
+         LIMIT 1`,
+        [
+          normalizedEmail,
+          hashedPassword
+        ]
       );
 
-      if (!user) {
+      if (result.rowCount === 0) {
         sendJson(res, 401, {
           success: false,
           message: "Email ou palavra-passe incorretos."
@@ -136,19 +212,19 @@ const server = http.createServer(async (req, res) => {
       sendJson(res, 200, {
         success: true,
         message: "Login efetuado com sucesso.",
-        user: {
-          id: user.id,
-          name: user.name,
-          email: user.email
-        }
+        user: result.rows[0]
       });
 
       return;
-    } catch {
-      sendJson(res, 400, {
+
+    } catch (error) {
+      console.error("Erro no login:", error);
+
+      sendJson(res, 500, {
         success: false,
-        message: "Pedido inválido."
+        message: "Erro ao processar o login."
       });
+
       return;
     }
   }
@@ -159,6 +235,24 @@ const server = http.createServer(async (req, res) => {
   });
 });
 
-server.listen(PORT, () => {
-  console.log(`Wawera backend running on port ${PORT}`);
-});
+async function start() {
+  try {
+    await initDatabase();
+
+    server.listen(PORT, () => {
+      console.log(
+        `Wawera backend running on port ${PORT}`
+      );
+    });
+
+  } catch (error) {
+    console.error(
+      "Erro ao iniciar a base de dados:",
+      error
+    );
+
+    process.exit(1);
+  }
+}
+
+start();
