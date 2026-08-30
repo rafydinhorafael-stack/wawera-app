@@ -896,6 +896,153 @@ const server = http.createServer(async (req, res) => {
      APAGAR PUBLICAÇÃO
      ========================= */
 
+  /* =========================
+   SEGUIR / DEIXAR DE SEGUIR
+   ========================= */
+
+const followMatch =
+  req.url.match(
+    /^\/api\/users\/([^/]+)\/follow$/
+  );
+
+if (
+  req.method === "POST" &&
+  followMatch
+) {
+  try {
+    const targetUserId =
+      followMatch[1];
+
+    const {
+      user_id
+    } = await readBody(req);
+
+    if (
+      !isUuid(user_id) ||
+      !isUuid(targetUserId)
+    ) {
+      sendJson(res, 401, {
+        success: false,
+        message:
+          "Utilizador não autenticado."
+      });
+
+      return;
+    }
+
+    if (
+      user_id === targetUserId
+    ) {
+      sendJson(res, 400, {
+        success: false,
+        message:
+          "Não podes seguir a tua própria conta."
+      });
+
+      return;
+    }
+
+    const targetResult =
+      await pool.query(
+        `
+        SELECT id
+        FROM users
+        WHERE id = $1
+        `,
+        [targetUserId]
+      );
+
+    if (
+      targetResult.rowCount === 0
+    ) {
+      sendJson(res, 404, {
+        success: false,
+        message:
+          "Utilizador não encontrado."
+      });
+
+      return;
+    }
+
+    const existing =
+      await pool.query(
+        `
+        SELECT 1
+        FROM follows
+        WHERE follower_id = $1
+        AND following_id = $2
+        `,
+        [
+          user_id,
+          targetUserId
+        ]
+      );
+
+    if (
+      existing.rowCount > 0
+    ) {
+      await pool.query(
+        `
+        DELETE FROM follows
+        WHERE follower_id = $1
+        AND following_id = $2
+        `,
+        [
+          user_id,
+          targetUserId
+        ]
+      );
+
+      sendJson(res, 200, {
+        success: true,
+        following: false,
+        message:
+          "Deixaste de seguir este utilizador."
+      });
+
+      return;
+    }
+
+    await pool.query(
+      `
+      INSERT INTO follows
+      (
+        follower_id,
+        following_id
+      )
+      VALUES
+      ($1, $2)
+      `,
+      [
+        user_id,
+        targetUserId
+      ]
+    );
+
+    sendJson(res, 200, {
+      success: true,
+      following: true,
+      message:
+        "Agora estás a seguir este utilizador."
+    });
+
+    return;
+
+  } catch (error) {
+    console.error(
+      "Erro ao seguir utilizador:",
+      error
+    );
+
+    sendJson(res, 500, {
+      success: false,
+      message:
+        "Não foi possível atualizar o seguimento."
+    });
+
+    return;
+  }
+}
   const deleteMatch =
     req.url.match(
       /^\/api\/posts\/(\d+)$/
