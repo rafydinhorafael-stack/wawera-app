@@ -1,9 +1,11 @@
 const http = require("http");
 const crypto = require("crypto");
+const fs = require("fs");
+const path = require("path");
 const { Pool } = require("pg");
 
 const PORT = process.env.PORT || 3000;
-
+const FRONTEND_PATH = path.join(__dirname, "..", "index.html");
 if (!process.env.DATABASE_URL) {
   console.error("DATABASE_URL não configurada.");
   process.exit(1);
@@ -77,6 +79,27 @@ function hashPassword(password) {
 }
 
 const server = http.createServer(async (req, res) => {
+if (req.method === "GET" && (req.url === "/" || req.url === "/index.html")) {
+  try {
+    const html = fs.readFileSync(FRONTEND_PATH, "utf8");
+
+    res.writeHead(200, {
+      "Content-Type": "text/html; charset=utf-8"
+    });
+
+    res.end(html);
+    return;
+  } catch (error) {
+    console.error("Erro ao carregar o frontend:", error);
+
+    sendJson(res, 500, {
+      success: false,
+      message: "Não foi possível carregar a aplicação."
+    });
+
+    return;
+  }
+}
   if (req.method === "OPTIONS") {
     sendJson(res, 204, {});
     return;
