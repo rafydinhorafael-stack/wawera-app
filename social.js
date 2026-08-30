@@ -123,11 +123,149 @@ async function getFollowing(userId) {
 
   return data.following || [];
 }
+async function addComment(postId, text) {
+  const user = getWaweraUser();
 
-window.WaweraSocial = {
+  if (!user || !user.id) {
+    throw new Error("Utilizador não autenticado.");
+  }
+
+  const cleanText = String(text || "").trim();
+
+  if (!cleanText) {
+    throw new Error("O comentário não pode estar vazio.");
+  }
+
+  const response = await fetch(
+    `${WAWERA_API}/api/posts/${encodeURIComponent(postId)}/comments`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        user_id: user.id,
+        text: cleanText
+      })
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok || !data.success) {
+    throw new Error(
+      data.message || "Não foi possível adicionar o comentário."
+    );
+  }
+
+  return data.comment || data;
+}
+
+async function deletePost(postId) {
+  const user = getWaweraUser();
+
+  if (!user || !user.id) {
+    throw new Error("Utilizador não autenticado.");
+  }
+
+  const response = await fetch(
+    `${WAWERA_API}/api/posts/${encodeURIComponent(postId)}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        user_id: user.id
+      })
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok || !data.success) {
+    throw new Error(
+      data.message || "Não foi possível apagar a publicação."
+    );
+  }
+
+  return data;
+}
+
+async function addComment(postId, text) {
+  const user = getWaweraUser();
+
+  if (!user || !user.id) {
+    throw new Error("Utilizador não autenticado.");
+  }
+
+  const cleanText = String(text || "").trim();
+
+  if (!cleanText) {
+    throw new Error("O comentário não pode estar vazio.");
+  }
+
+  const response = await fetch(
+    `${WAWERA_API}/api/posts/${encodeURIComponent(postId)}/comments`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        user_id: user.id,
+        text: cleanText
+      })
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok || !data.success) {
+    throw new Error(
+      data.message || "Não foi possível adicionar o comentário."
+    );
+  }
+
+  return data.comment || data;
+}
+
+async function deletePost(postId) {
+  const user = getWaweraUser();
+
+  if (!user || !user.id) {
+    throw new Error("Utilizador não autenticado.");
+  }
+
+  const response = await fetch(
+    `${WAWERA_API}/api/posts/${encodeURIComponent(postId)}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        user_id: user.id
+      })
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok || !data.success) {
+    throw new Error(
+      data.message || "Não foi possível apagar a publicação."
+    );
+  }
+
+  return data;
+}  
+  window.WaweraSocial = {
   loadProfile,
   followUser,
   unfollowUser,
   getFollowers,
-  getFollowing
+  getFollowing,
+  addComment,
+  deletePost
 };
