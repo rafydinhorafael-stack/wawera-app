@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wawera CV Pro</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0b1020;
+  color: white;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 25px;
+}
+
+.header {
+  text-align: center;
+  padding: 25px 10px;
+}
+
+.logo {
+  width: 70px;
+  height: 70px;
+  margin: auto;
+  border-radius: 20px;
+  background: white;
+  color: #0b1020;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.header h1 {
+  font-size: 38px;
+  margin: 15px 0 8px;
+}
+
+.header p {
+  color: #aeb7ca;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.card {
+  background: #171d30;
+  border: 1px solid #30384f;
+  border-radius: 22px;
+  padding: 22px;
+}
+
+.card h2 {
+  margin-top: 0;
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+.field label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 7px;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 13px;
+  border-radius: 12px;
+  border: 1px solid #394158;
+  background: #1d2438;
+  color: white;
+  font-size: 15px;
+}
+
+.field textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 13px;
+  border: 0;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.primary {
+  background: white;
+  color: #0b1020;
+}
+
+.secondary {
+  background: transparent;
+  color: white;
+  border: 1px solid #394158;
+}
+
+.pro {
+  margin-top: 18px;
+  padding: 18px;
+  border-radius: 16px;
+  background: #1d2438;
+  border: 1px solid #394158;
+}
+
+.price {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.small {
+  color: #aeb7ca;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.preview {
+  background: #dcdcdc;
+  padding: 15px;
+  border-radius: 15px;
+  overflow: auto;
+}
+
+.cv {
+  background: white;
+  color: #222;
+  width: 794px;
+  min-height: 1123px;
+  margin: auto;
+  padding: 50px;
+  font-family: Arial, sans-serif;
+}
+
+.cv h1 {
+  color: #1d3557;
+  font-size: 34px;
+  margin-bottom: 5px;
+}
+
+.cv .role {
+  color: #555;
+  font-size: 17px;
+  margin-bottom: 15px;
+}
+
+.cv .contact {
+  color: #555;
+  font-size: 13px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #1d3557;
+}
+
+.cv h3 {
+  color: #1d3557;
+  font-size: 15px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+  margin-top: 22px;
+}
+
+.cv p {
+  font-size: 13px;
+  line-height: 1.55;
+  white-space: normal;
+}
+
+.back {
+  display: inline-block;
+  color: white;
+  text-decoration: none;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 800px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .cv {
+    transform: scale(0.72);
+    transform-origin: top left;
+    margin-bottom: -300px;
+  }
+
+  .preview {
+    height: 850px;
+  }
+}
+
+@media print {
+  body {
+    background: white;
+  }
+
+  .header,
+  .form-card,
+  .actions,
+  .back {
+    display: none !important;
+  }
+
+  .container {
+    padding: 0;
+  }
+
+  .grid {
+    display: block;
+  }
+
+  .preview {
+    padding: 0;
+    background: white;
+  }
+
+  .cv {
+    transform: none !important;
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<a href="/" class="back">← Voltar à Wawera</a>
+
+<div class="header">
+  <div class="logo">W!</div>
+  <h1>Wawera CV Pro</h1>
+  <p>Cria um currículo profissional em poucos minutos.</p>
+</div>
+
+<div class="grid">
+
+<div class="card form-card">
+
+<h2>📄 Criar currículo</h2>
+
+<div class="field">
+<label>Nome completo</label>
+<input id="name" placeholder="Ex.: Amade Rafael">
+</div>
+
+<div class="field">
+<label>Profissão / cargo pretendido</label>
+<input id="role" placeholder="Ex.: Manobrador de Grua Torre">
+</div>
+
+<div class="row">
+
+<div class="field">
+<label>Email</label>
+<input id="email" type="email">
+</div>
+
+<div class="field">
+<label>Telefone</label>
+<input id="phone">
+</div>
+
+</div>
+
+<div class="field">
+<label>Localização</label>
+<input id="location" placeholder="Guimarães, Portugal">
+</div>
+
+<div class="field">
+<label>Perfil profissional</label>
+<textarea id="summary"
+placeholder="Escreve uma breve apresentação profissional."></textarea>
+</div>
+
+<div class="field">
+<label>Experiência profissional</label>
+<textarea id="experience"
+placeholder="Cargo — Empresa — Datas&#10;Principais funções e responsabilidades."></textarea>
+</div>
+
+<div class="field">
+<label>Formação</label>
+<textarea id="education"
+placeholder="Curso / escolaridade — Instituição — Ano"></textarea>
+</div>
+
+<div class="field">
+<label>Competências</label>
+<textarea id="skills"
+placeholder="Trabalho em equipa, segurança, organização..."></textarea>
+</div>
+
+<div class="field">
+<label>Idiomas</label>
+<input id="languages"
+placeholder="Português, Inglês, Francês">
+</div>
+
+<button class="primary" onclick="updateCV()">
+Atualizar currículo
+</button>
+
+<div class="pro">
+
+<strong>⭐ Wawera CV Pro</strong>
+
+<p class="small">
+Cria currículos profissionais, adapta o currículo à vaga,
+prepara cartas de apresentação e disponibiliza modelos Premium.
+</p>
+
+<div class="price">€4,99</div>
+
+<button class="secondary" onclick="proMessage()">
+Desbloquear CV Pro
+</button>
+
+</div>
+
+<p class="small">
+Este é um modelo próprio inspirado em currículos profissionais
+europeus. Não é um documento oficial Europass.
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>👀 Pré-visualização</h2>
+
+<div class="preview">
+
+<article class="cv" id="cv">
+
+<h1>O teu nome</h1>
+
+<div class="role">
+Cargo pretendido
+</div>
+
+<div class="contact">
+Email · Telefone · Localização
+</div>
+
+<h3>Perfil profissional</h3>
+
+<p>
+Preenche os teus dados para gerar o teu currículo.
+</p>
+
+<h3>Experiência profissional</h3>
+
+<p>—</p>
+
+<h3>Formação</h3>
+
+<p>—</p>
+
+<h3>Competências</h3>
+
+<p>—</p>
+
+<h3>Idiomas</h3>
+
+<p>—</p>
+
+</article>
+
+</div>
+
+<div class="actions">
+
+<button class="primary" onclick="window.print()">
+🖨️ Guardar currículo em PDF
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const fields = [
+  "name",
+  "role",
+  "email",
+  "phone",
+  "location",
+  "summary",
+  "experience",
+  "education",
+  "skills",
+  "languages"
+];
+
+function value(id) {
+  return document.getElementById(id).value.trim();
+}
+
+function escapeHTML(text) {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function formatText(text) {
+  return escapeHTML(text).replace(/\n/g, "<br>");
+}
+
+function updateCV() {
+
+  const name = value("name") || "O teu nome";
+
+  const role = value("role") || "Cargo pretendido";
+
+  const contact = [
+    value("email"),
+    value("phone"),
+    value("location")
+  ]
+  .filter(Boolean)
+  .map(escapeHTML)
+  .join(" · ");
+
+  const finalContact =
+    contact || "Email · Telefone · Localização";
+
+  const summary =
+    value("summary") ||
+    "Apresentação profissional.";
+
+  const experience =
+    value("experience") ||
+    "Experiência profissional a preencher.";
+
+  const education =
+    value("education") ||
+    "Formação académica a preencher.";
+
+  const skills =
+    value("skills") ||
+    "Competências a preencher.";
+
+  const languages =
+    value("languages") ||
+    "Idiomas a preencher.";
+
+  document.getElementById("cv").innerHTML = `
+
+    <h1>${escapeHTML(name)}</h1>
+
+    <div class="role">
+      ${escapeHTML(role)}
+    </div>
+
+    <div class="contact">
+      ${finalContact}
+    </div>
+
+    <h3>Perfil profissional</h3>
+    <p>${formatText(summary)}</p>
+
+    <h3>Experiência profissional</h3>
+    <p>${formatText(experience)}</p>
+
+    <h3>Formação</h3>
+    <p>${formatText(education)}</p>
+
+    <h3>Competências</h3>
+    <p>${formatText(skills)}</p>
+
+    <h3>Idiomas</h3>
+    <p>${formatText(languages)}</p>
+  `;
+
+  const data = {};
+
+  fields.forEach(function(id) {
+    data[id] = value(id);
+  });
+
+  localStorage.setItem(
+    "waweraCV",
+    JSON.stringify(data)
+  );
+}
+
+function loadCV() {
+
+  try {
+
+    const saved =
+      JSON.parse(
+        localStorage.getItem("waweraCV") || "{}"
+      );
+
+    fields.forEach(function(id) {
+
+      if (saved[id] !== undefined) {
+        document.getElementById(id).value = saved[id];
+      }
+
+    });
+
+    updateCV();
+
+  } catch (error) {
+
+    console.log("Não foi possível carregar o CV.");
+
+  }
+}
+
+function proMessage() {
+
+  alert(
+    "Wawera CV Pro: o sistema de pagamento será ligado numa próxima etapa."
+  );
+
+}
+
+loadCV();
+
+</script>
+
+</body>
+</html>
