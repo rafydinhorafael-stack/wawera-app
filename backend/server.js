@@ -1516,6 +1516,92 @@ if (
       return;
     }
   }
+  /* =========================
+   LISTAR UTILIZADORES
+   ========================= */
+
+if (
+  req.method === "GET" &&
+  req.url.startsWith("/api/users")
+) {
+  try {
+    const url = new URL(
+      req.url,
+      `http://${req.headers.host || "localhost"}`
+    );
+
+    const userId =
+      url.searchParams.get("user_id");
+
+    const result =
+      await pool.query(
+        `
+        SELECT
+          u.id,
+          u.name,
+
+          (
+            SELECT COUNT(*)
+            FROM follows f
+            WHERE f.following_id = u.id
+          ) AS followers_count,
+
+          (
+            SELECT COUNT(*)
+            FROM follows f
+            WHERE f.follower_id = u.id
+          ) AS following_count,
+
+          CASE
+            WHEN $1::uuid IS NULL THEN false
+            ELSE EXISTS (
+              SELECT 1
+              FROM follows f
+              WHERE f.follower_id = $1
+              AND f.following_id = u.id
+            )
+          END AS following
+
+        FROM users u
+
+        WHERE
+          $1::uuid IS NULL
+          OR u.id <> $1
+
+        ORDER BY u.name ASC
+
+        LIMIT 100
+        `,
+        [
+          isUuid(userId)
+            ? userId
+            : null
+        ]
+      );
+
+    sendJson(res, 200, {
+      success: true,
+      users: result.rows
+    });
+
+    return;
+
+  } catch (error) {
+
+    console.error(
+      "Erro ao listar utilizadores:",
+      error
+    );
+
+    sendJson(res, 500, {
+      success: false,
+      message:
+        "Não foi possível carregar os utilizadores."
+    });
+
+    return;
+  }
+}
 
   /* =========================
      ROTA NÃO ENCONTRADA
