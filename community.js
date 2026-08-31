@@ -1,9 +1,5 @@
 const WAWERA_API = "https://wawera-app.onrender.com";
 
-/* =========================
-   UTILITÁRIOS
-========================= */
-
 function getUser() {
   try {
     return JSON.parse(
@@ -57,12 +53,7 @@ function getInitials(name) {
   ).toUpperCase();
 }
 
-
-/* =========================
-   API
-========================= */
-
-async function communityApi(
+async function api(
   path,
   options = {}
 ) {
@@ -98,16 +89,14 @@ async function communityApi(
   return data;
 }
 
-
 /* =========================
-   ESTILO DA COMUNIDADE
+   ESTILOS
 ========================= */
 
-function addCommunityStyles() {
-
+function addStyles() {
   if (
     document.getElementById(
-      "wawera-community-style"
+      "wawera-social-style"
     )
   ) {
     return;
@@ -117,123 +106,162 @@ function addCommunityStyles() {
     document.createElement("style");
 
   style.id =
-    "wawera-community-style";
+    "wawera-social-style";
 
   style.textContent = `
-
-    .wawera-section {
-      margin-top: 18px;
+    .wawera-social-section {
+      margin: 18px 0;
       padding: 18px;
       border-radius: 20px;
       background: #171d30;
-      border: 1px solid rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.1);
+      color: #fff;
     }
 
-    .wawera-section-title {
+    .wawera-social-title {
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       gap: 12px;
     }
 
-    .wawera-section-title h3 {
+    .wawera-social-title h3 {
       margin: 0;
       font-size: 20px;
     }
 
-    .wawera-section-title p {
+    .wawera-social-title p {
       margin: 5px 0 0;
       color: #aeb7ca;
       font-size: 13px;
     }
 
-    .wawera-refresh {
-      border: 1px solid rgba(255,255,255,.12);
-      background: #1d2438;
-      color: white;
-      border-radius: 12px;
-      padding: 8px 12px;
-      font-size: 20px;
-    }
-
-    .wawera-people {
+    .wawera-users {
       display: grid;
       gap: 10px;
       margin-top: 15px;
     }
 
-    .wawera-person {
+    .wawera-user-card {
       display: flex;
       align-items: center;
-      gap: 11px;
+      gap: 12px;
       padding: 12px;
-      border-radius: 16px;
       background: #1d2438;
-      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 16px;
     }
 
-    .wawera-person-avatar {
+    .wawera-avatar {
       width: 48px;
       height: 48px;
       min-width: 48px;
       border-radius: 50%;
-      background: white;
+      background: #fff;
       color: #0b1020;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 900;
-      overflow: hidden;
     }
 
-    .wawera-person-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .wawera-person-info {
+    .wawera-user-info {
       flex: 1;
       min-width: 0;
     }
 
-    .wawera-person-info strong {
+    .wawera-user-info strong {
       display: block;
       font-size: 15px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      cursor: pointer;
     }
 
-    .wawera-person-info span {
+    .wawera-user-info span {
       display: block;
       margin-top: 3px;
       color: #aeb7ca;
       font-size: 12px;
     }
 
-    .wawera-follow {
+    .wawera-follow-btn {
       border: 0;
       border-radius: 12px;
       padding: 9px 13px;
-      background: white;
+      background: #fff;
       color: #0b1020;
       font-weight: 800;
       white-space: nowrap;
     }
 
-    .wawera-follow.following {
+    .wawera-follow-btn.following {
       background: transparent;
-      color: white;
+      color: #fff;
       border: 1px solid rgba(255,255,255,.18);
     }
 
     .wawera-empty {
-      padding: 16px;
+      padding: 18px;
       text-align: center;
       color: #aeb7ca;
-      font-size: 13px;
       line-height: 1.5;
+    }
+
+    .wawera-profile {
+      margin: 18px 0;
+      padding: 20px;
+      border-radius: 20px;
+      background: #171d30;
+      border: 1px solid rgba(255,255,255,.1);
+      color: #fff;
+    }
+
+    .wawera-profile-top {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .wawera-profile-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: #fff;
+      color: #0b1020;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .wawera-profile-info {
+      flex: 1;
+    }
+
+    .wawera-profile-info h2 {
+      margin: 0;
+    }
+
+    .wawera-stats {
+      display: flex;
+      gap: 15px;
+      margin-top: 8px;
+      color: #aeb7ca;
+      font-size: 13px;
+    }
+
+    .wawera-profile-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .wawera-btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-weight: 800;
+      background: #fff;
+      color: #0b1020;
     }
 
     .wawera-post {
@@ -242,78 +270,55 @@ function addCommunityStyles() {
       border-radius: 18px;
       background: #1d2438;
       border: 1px solid rgba(255,255,255,.08);
+      color: #fff;
     }
 
     .wawera-post-header {
       display: flex;
       align-items: center;
-      gap: 11px;
+      gap: 10px;
     }
 
-    .wawera-post-avatar {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      background: white;
-      color: #0b1020;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 900;
-      flex-shrink: 0;
-    }
-
-    .wawera-post-user {
+    .wawera-post-info {
       flex: 1;
       min-width: 0;
     }
 
-    .wawera-post-user strong {
-      display: block;
+    .wawera-post-info strong {
+      cursor: pointer;
     }
 
-    .wawera-post-user span {
+    .wawera-post-info span {
+      display: block;
       color: #aeb7ca;
       font-size: 12px;
-    }
-
-    .wawera-category {
-      color: #aeb7ca;
-      background: rgba(255,255,255,.07);
-      padding: 5px 8px;
-      border-radius: 999px;
-      font-size: 11px;
+      margin-top: 3px;
     }
 
     .wawera-post-text {
-      margin-top: 14px;
+      margin-top: 13px;
       white-space: pre-wrap;
       word-break: break-word;
       line-height: 1.55;
     }
 
-    .wawera-post-actions {
+    .wawera-actions {
       display: flex;
       gap: 8px;
-      margin-top: 14px;
+      margin-top: 13px;
     }
 
-    .wawera-post-actions button {
-      border: 1px solid rgba(255,255,255,.10);
+    .wawera-actions button {
+      border: 1px solid rgba(255,255,255,.1);
       background: #171d30;
-      color: white;
+      color: #fff;
       border-radius: 12px;
       padding: 9px 12px;
       font-weight: 700;
     }
 
-    .wawera-post-actions button.liked {
-      background: white;
-      color: #0b1020;
-    }
-
     .wawera-comments {
-      margin-top: 12px;
+      margin-top: 10px;
     }
 
     .wawera-comment {
@@ -326,66 +331,43 @@ function addCommunityStyles() {
       margin-right: 5px;
     }
 
-    .wawera-comment-input {
+    .wawera-comment-box {
       display: flex;
       gap: 8px;
       margin-top: 12px;
     }
 
-    .wawera-comment-input input {
+    .wawera-comment-box input {
       flex: 1;
       min-width: 0;
-      padding: 11px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.1);
       background: #171d30;
-      color: white;
-    }
-
-    .wawera-comment-input button {
-      border: 0;
+      color: #fff;
       border-radius: 12px;
-      padding: 10px 13px;
-      font-weight: 800;
+      padding: 10px;
     }
 
     @media(max-width:520px) {
-
-      .wawera-person {
-        padding: 10px;
-      }
-
-      .wawera-follow {
-        padding: 8px 10px;
-      }
-
-      .wawera-comment-input {
+      .wawera-comment-box {
         flex-direction: column;
       }
-
-      .wawera-comment-input button {
-        width: 100%;
-      }
-
     }
-
   `;
 
   document.head.appendChild(style);
 }
 
-
 /* =========================
-   CRIAR ÁREA DE PESSOAS
+   PESSOAS
 ========================= */
 
 function createPeopleSection() {
-
-  if (
+  let section =
     document.getElementById(
       "waweraPeople"
-    )
-  ) {
+    );
+
+  if (section) {
     return;
   }
 
@@ -396,33 +378,27 @@ function createPeopleSection() {
     return;
   }
 
-  const section =
+  section =
     document.createElement("section");
 
   section.id =
     "waweraPeople";
 
   section.className =
-    "wawera-section";
+    "wawera-social-section";
 
   section.innerHTML = `
-
-    <div class="wawera-section-title">
+    <div class="wawera-social-title">
 
       <div>
-
-        <h3>
-          👥 Pessoas na Wawera
-        </h3>
-
+        <h3>👥 Pessoas na Wawera</h3>
         <p>
-          Descobre pessoas e começa a seguir.
+          Encontra pessoas e começa a seguir.
         </p>
-
       </div>
 
       <button
-        class="wawera-refresh"
+        class="wawera-btn"
         onclick="loadPeople()"
       >
         ↻
@@ -431,16 +407,13 @@ function createPeopleSection() {
     </div>
 
     <div
-      id="waweraPeopleList"
-      class="wawera-people"
+      id="waweraUsers"
+      class="wawera-users"
     >
-
       <div class="wawera-empty">
-        A carregar pessoas...
+        A carregar utilizadores...
       </div>
-
     </div>
-
   `;
 
   feed.parentElement.insertBefore(
@@ -449,207 +422,106 @@ function createPeopleSection() {
   );
 }
 
-
-/* =========================
-   CARREGAR PESSOAS
-========================= */
-
 async function loadPeople() {
-
   const box =
     document.getElementById(
-      "waweraPeopleList"
+      "waweraUsers"
     );
 
   if (!box) {
     return;
   }
 
-  const me =
-    getUserId();
-
-  box.innerHTML = `
-    <div class="wawera-empty">
-      A procurar utilizadores...
-    </div>
-  `;
-
   try {
-
-    /*
-      Pedimos as publicações ao servidor.
-
-      Como cada publicação contém
-      o autor, conseguimos descobrir
-      outros utilizadores.
-    */
-
-    const query =
-      me
-        ? `?user_id=${encodeURIComponent(me)}`
-        : "";
+    const me = getUserId();
 
     const data =
-      await communityApi(
-        `/api/posts${query}`
+      await api(
+        `/api/users${
+          me
+            ? `?user_id=${encodeURIComponent(me)}`
+            : ""
+        }`
       );
 
-    const posts =
-      data.posts || [];
+    const users =
+      Array.isArray(data.users)
+        ? data.users
+        : [];
 
-    const people =
-      new Map();
-
-    posts.forEach(post => {
-
-      if (!post.user_id) {
-        return;
-      }
-
-      if (
-        String(post.user_id) ===
-        String(me)
-      ) {
-        return;
-      }
-
-      const id =
-        String(post.user_id);
-
-      if (!people.has(id)) {
-
-        people.set(
-          id,
-          {
-            id: post.user_id,
-
-            name:
-              post.author_name ||
-              "Utilizador",
-
-            avatar:
-              post.author_avatar ||
-              post.avatar ||
-              "",
-
-            posts: 0,
-
-            following:
-              Boolean(
-                post.following_by_me ||
-                post.is_following ||
-                post.following
-              )
-          }
-        );
-
-      }
-
-      people.get(id).posts++;
-
-    });
-
-    const list =
-      [...people.values()];
-
-    if (!list.length) {
-
+    if (!users.length) {
       box.innerHTML = `
         <div class="wawera-empty">
-
-          Ainda não existem outros
-          utilizadores com publicações.
-
-          <br><br>
-
-          Cria outra conta para testar
-          a parte social da aplicação.
-
+          Ainda não existem outros utilizadores.
         </div>
       `;
-
       return;
     }
 
     box.innerHTML =
-      list
-        .map(person => {
+      users
+        .map(user => {
 
           const following =
-            person.following;
-
-          const avatar =
-            person.avatar
-              ? `
-                <img
-                  src="${escapeHtml(person.avatar)}"
-                  alt=""
-                >
-              `
-              : escapeHtml(
-                  getInitials(
-                    person.name
-                  )
-                );
+            Boolean(
+              user.following
+            );
 
           return `
+            <div class="wawera-user-card">
 
-            <div class="wawera-person">
-
-              <div
-                class="wawera-person-avatar"
+              <button
+                class="wawera-avatar"
+                onclick="openProfile('${escapeHtml(user.id)}')"
               >
-                ${avatar}
-              </div>
+                ${escapeHtml(
+                  getInitials(
+                    user.name
+                  )
+                )}
+              </button>
 
-              <div
-                class="wawera-person-info"
-              >
+              <div class="wawera-user-info">
 
-                <strong>
+                <strong
+                  onclick="openProfile('${escapeHtml(user.id)}')"
+                >
                   ${escapeHtml(
-                    person.name
+                    user.name
                   )}
                 </strong>
 
                 <span>
-                  ${person.posts}
-                  ${
-                    person.posts === 1
-                      ? "publicação"
-                      : "publicações"
-                  }
+                  ${Number(
+                    user.followers_count || 0
+                  )} seguidores ·
+                  ${Number(
+                    user.following_count || 0
+                  )} a seguir
                 </span>
 
               </div>
 
               <button
-                class="wawera-follow ${
+                class="wawera-follow-btn ${
                   following
                     ? "following"
                     : ""
                 }"
-                data-user-id="${escapeHtml(
-                  person.id
-                )}"
                 onclick="toggleFollow(
-                  '${escapeHtml(person.id)}',
+                  '${escapeHtml(user.id)}',
                   this
                 )"
               >
-
                 ${
                   following
                     ? "✓ A seguir"
                     : "Seguir"
                 }
-
               </button>
 
             </div>
-
           `;
-
         })
         .join("");
 
@@ -657,34 +529,27 @@ async function loadPeople() {
 
     box.innerHTML = `
       <div class="wawera-empty">
-        ❌ ${escapeHtml(
-          error.message
-        )}
+        ❌ ${escapeHtml(error.message)}
       </div>
     `;
 
   }
 }
 
-
 /* =========================
-   SEGUIR / DEIXAR DE SEGUIR
+   SEGUIR
 ========================= */
 
 async function toggleFollow(
   targetId,
   button
 ) {
-
-  const me =
-    getUserId();
+  const me = getUserId();
 
   if (!me) {
-
     alert(
       "Entra na tua conta primeiro."
     );
-
     return;
   }
 
@@ -692,33 +557,29 @@ async function toggleFollow(
     String(me) ===
     String(targetId)
   ) {
-
     return;
-
   }
+
+  button.disabled = true;
 
   const following =
     button.classList.contains(
       "following"
     );
 
-  button.disabled = true;
-
   try {
 
     if (following) {
 
-      await communityApi(
+      await api(
         `/api/follow/${encodeURIComponent(
           targetId
         )}`,
         {
           method: "DELETE",
-
-          body:
-            JSON.stringify({
-              follower_id: me
-            })
+          body: JSON.stringify({
+            follower_id: me
+          })
         }
       );
 
@@ -731,18 +592,14 @@ async function toggleFollow(
 
     } else {
 
-      await communityApi(
+      await api(
         "/api/follow",
         {
           method: "POST",
-
-          body:
-            JSON.stringify({
-              follower_id: me,
-
-              following_id:
-                targetId
-            })
+          body: JSON.stringify({
+            follower_id: me,
+            following_id: targetId
+          })
         }
       );
 
@@ -752,7 +609,6 @@ async function toggleFollow(
 
       button.textContent =
         "✓ A seguir";
-
     }
 
   } catch (error) {
@@ -768,21 +624,166 @@ async function toggleFollow(
   }
 }
 
+/* =========================
+   PERFIL
+========================= */
+
+async function openProfile(
+  userId
+) {
+  const feed =
+    document.getElementById(
+      "feed"
+    );
+
+  if (!feed) {
+    return;
+  }
+
+  const people =
+    document.getElementById(
+      "waweraPeople"
+    );
+
+  people?.remove();
+
+  feed.innerHTML = `
+    <div class="wawera-empty">
+      A carregar perfil...
+    </div>
+  `;
+
+  try {
+
+    const data =
+      await api(
+        `/api/profile/${encodeURIComponent(
+          userId
+        )}`
+      );
+
+    const profile =
+      data.profile;
+
+    feed.innerHTML = `
+
+      <section class="wawera-profile">
+
+        <div class="wawera-profile-top">
+
+          <div class="wawera-profile-avatar">
+            ${escapeHtml(
+              getInitials(
+                profile.name
+              )
+            )}
+          </div>
+
+          <div class="wawera-profile-info">
+
+            <h2>
+              ${escapeHtml(
+                profile.name
+              )}
+            </h2>
+
+            <div class="wawera-stats">
+
+              <span>
+                👥 ${Number(
+                  profile.followers_count || 0
+                )} seguidores
+              </span>
+
+              <span>
+                ➡️ ${Number(
+                  profile.following_count || 0
+                )} a seguir
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="wawera-profile-buttons">
+
+          <button
+            class="wawera-btn"
+            onclick="renderFeed()"
+          >
+            ← Voltar
+          </button>
+
+          ${
+            String(
+              getUserId()
+            ) !==
+            String(
+              profile.id
+            )
+
+              ? `
+                <button
+                  class="wawera-follow-btn"
+                  onclick="toggleFollow(
+                    '${escapeHtml(profile.id)}',
+                    this
+                  )"
+                >
+                  Seguir
+                </button>
+              `
+
+              : ""
+          }
+
+        </div>
+
+      </section>
+
+    `;
+
+  } catch (error) {
+
+    feed.innerHTML = `
+      <div class="wawera-empty">
+
+        ❌ ${escapeHtml(
+          error.message
+        )}
+
+        <br><br>
+
+        <button
+          class="wawera-btn"
+          onclick="renderFeed()"
+        >
+          Voltar
+        </button>
+
+      </div>
+    `;
+
+  }
+}
 
 /* =========================
    FEED
 ========================= */
 
 async function renderFeed() {
-
   const feed =
-    document.getElementById("feed");
+    document.getElementById(
+      "feed"
+    );
 
   if (!feed) {
     return;
   }
 
-  addCommunityStyles();
+  addStyles();
 
   createPeopleSection();
 
@@ -797,43 +798,35 @@ async function renderFeed() {
     const me =
       getUserId();
 
-    const query =
-      me
-        ? `?user_id=${encodeURIComponent(me)}`
-        : "";
-
     const data =
-      await communityApi(
-        `/api/posts${query}`
+      await api(
+        `/api/posts${
+          me
+            ? `?user_id=${encodeURIComponent(me)}`
+            : ""
+        }`
       );
 
     const posts =
-      data.posts || [];
-
-    if (!posts.length) {
-
-      feed.innerHTML = `
-        <div class="wawera-empty">
-
-          Ainda não existem publicações.
-
-          <br><br>
-
-          Sê a primeira pessoa
-          a publicar!
-
-        </div>
-      `;
-
-      await loadPeople();
-
-      return;
-    }
+      Array.isArray(data.posts)
+        ? data.posts
+        : [];
 
     feed.innerHTML =
-      posts
-        .map(renderPost)
-        .join("");
+      posts.length
+        ? posts
+            .map(
+              post =>
+                renderPost(
+                  post
+                )
+            )
+            .join("")
+        : `
+          <div class="wawera-empty">
+            Ainda não existem publicações.
+          </div>
+        `;
 
     await loadPeople();
 
@@ -850,24 +843,15 @@ async function renderFeed() {
   }
 }
 
-
-/* =========================
-   PUBLICAÇÃO
-========================= */
-
 function renderPost(post) {
-
   const me =
     getUserId();
 
   const owner =
-    String(post.user_id) ===
+    String(
+      post.user_id
+    ) ===
     String(me);
-
-  const liked =
-    Boolean(
-      post.liked_by_me
-    );
 
   const comments =
     Array.isArray(
@@ -880,25 +864,24 @@ function renderPost(post) {
 
     <article class="wawera-post">
 
-      <div
-        class="wawera-post-header"
-      >
+      <div class="wawera-post-header">
 
-        <div
+        <button
           class="wawera-post-avatar"
+          onclick="openProfile('${escapeHtml(post.user_id)}')"
         >
           ${escapeHtml(
             getInitials(
               post.author_name
             )
           )}
-        </div>
+        </button>
 
-        <div
-          class="wawera-post-user"
-        >
+        <div class="wawera-post-info">
 
-          <strong>
+          <strong
+            onclick="openProfile('${escapeHtml(post.user_id)}')"
+          >
             ${escapeHtml(
               post.author_name ||
               "Utilizador"
@@ -914,55 +897,36 @@ function renderPost(post) {
 
         </div>
 
-        <div
-          class="wawera-category"
-        >
+        <span>
           ${escapeHtml(
             post.category ||
             "Geral"
           )}
-        </div>
+        </span>
 
       </div>
 
-      <div
-        class="wawera-post-text"
-      >
+      <div class="wawera-post-text">
         ${escapeHtml(
           post.text
         )}
       </div>
 
-      <div
-        class="wawera-post-actions"
-      >
+      <div class="wawera-actions">
 
         <button
-          class="${
-            liked
-              ? "liked"
-              : ""
-          }"
-          onclick="toggleLike(
-            ${post.id}
-          )"
+          onclick="toggleLike(${post.id})"
         >
-
-          ❤️ ${
-            Number(
-              post.likes || 0
-            )
-          }
-
+          ❤️ ${Number(
+            post.likes || 0
+          )}
         </button>
 
         ${
           owner
             ? `
               <button
-                onclick="deletePost(
-                  ${post.id}
-                )"
+                onclick="deletePost(${post.id})"
               >
                 🗑️ Apagar
               </button>
@@ -972,54 +936,43 @@ function renderPost(post) {
 
       </div>
 
-      <div
-        class="wawera-comment-input"
-      >
+      <div class="wawera-comment-box">
 
         <input
           id="comment-${post.id}"
           maxlength="300"
-          type="text"
           placeholder="Escreve um comentário..."
         >
 
         <button
-          onclick="addComment(
-            ${post.id}
-          )"
+          class="wawera-btn"
+          onclick="addComment(${post.id})"
         >
           Comentar
         </button>
 
       </div>
 
-      <div
-        class="wawera-comments"
-      >
+      <div class="wawera-comments">
 
         ${comments
-          .map(comment => `
-
-            <div
-              class="wawera-comment"
-            >
-
-              <strong>
-                ${escapeHtml(
-                  comment.author_name ||
-                  "Utilizador"
-                )}
-              </strong>
-
-              <span>
+          .map(
+            comment => `
+              <div
+                class="wawera-comment"
+              >
+                <strong>
+                  ${escapeHtml(
+                    comment.author_name ||
+                    "Utilizador"
+                  )}
+                </strong>
                 ${escapeHtml(
                   comment.text
                 )}
-              </span>
-
-            </div>
-
-          `)
+              </div>
+            `
+          )
           .join("")}
 
       </div>
@@ -1029,13 +982,11 @@ function renderPost(post) {
   `;
 }
 
-
 /* =========================
-   CRIAR PUBLICAÇÃO
+   PUBLICAR
 ========================= */
 
 async function createPost() {
-
   const input =
     document.getElementById(
       "postInput"
@@ -1050,7 +1001,6 @@ async function createPost() {
     getUserId();
 
   if (!me) {
-
     alert(
       "Entra na tua conta para publicar."
     );
@@ -1064,7 +1014,6 @@ async function createPost() {
     ).trim();
 
   if (!text) {
-
     alert(
       "Escreve alguma coisa antes de publicar."
     );
@@ -1074,7 +1023,7 @@ async function createPost() {
 
   try {
 
-    await communityApi(
+    await api(
       "/api/posts",
       {
         method: "POST",
@@ -1082,8 +1031,7 @@ async function createPost() {
         body:
           JSON.stringify({
             user_id: me,
-
-            text: text,
+            text,
 
             category:
               category?.value ||
@@ -1105,18 +1053,17 @@ async function createPost() {
   }
 }
 
-
 /* =========================
    LIKE
 ========================= */
 
-async function toggleLike(id) {
-
+async function toggleLike(
+  postId
+) {
   const me =
     getUserId();
 
   if (!me) {
-
     alert(
       "Entra na tua conta para gostar."
     );
@@ -1126,8 +1073,8 @@ async function toggleLike(id) {
 
   try {
 
-    await communityApi(
-      `/api/posts/${id}/like`,
+    await api(
+      `/api/posts/${postId}/like`,
       {
         method: "POST",
 
@@ -1149,16 +1096,16 @@ async function toggleLike(id) {
   }
 }
 
-
 /* =========================
    COMENTÁRIO
 ========================= */
 
-async function addComment(id) {
-
+async function addComment(
+  postId
+) {
   const input =
     document.getElementById(
-      `comment-${id}`
+      `comment-${postId}`
     );
 
   const text =
@@ -1170,7 +1117,6 @@ async function addComment(id) {
     getUserId();
 
   if (!me) {
-
     alert(
       "Entra na tua conta para comentar."
     );
@@ -1184,15 +1130,15 @@ async function addComment(id) {
 
   try {
 
-    await communityApi(
-      `/api/posts/${id}/comments`,
+    await api(
+      `/api/posts/${postId}/comments`,
       {
         method: "POST",
 
         body:
           JSON.stringify({
             user_id: me,
-            text: text
+            text
           })
       }
     );
@@ -1208,13 +1154,13 @@ async function addComment(id) {
   }
 }
 
-
 /* =========================
-   APAGAR PUBLICAÇÃO
+   APAGAR
 ========================= */
 
-async function deletePost(id) {
-
+async function deletePost(
+  postId
+) {
   const me =
     getUserId();
 
@@ -1232,8 +1178,8 @@ async function deletePost(id) {
 
   try {
 
-    await communityApi(
-      `/api/posts/${id}`,
+    await api(
+      `/api/posts/${postId}`,
       {
         method: "DELETE",
 
@@ -1255,16 +1201,15 @@ async function deletePost(id) {
   }
 }
 
-
 /* =========================
-   DISPONIBILIZAR FUNÇÕES
+   EXPORTAR
 ========================= */
-
-window.createPost =
-  createPost;
 
 window.renderFeed =
   renderFeed;
+
+window.createPost =
+  createPost;
 
 window.toggleLike =
   toggleLike;
@@ -1281,41 +1226,19 @@ window.loadPeople =
 window.toggleFollow =
   toggleFollow;
 
-window.escapeHtml =
-  escapeHtml;
+window.openProfile =
+  openProfile;
 
-window.getInitials =
-  getInitials;
-
-
-/* =========================
-   INICIAR
-========================= */
+addStyles();
 
 if (
   document.readyState ===
   "loading"
 ) {
-
   document.addEventListener(
     "DOMContentLoaded",
-    () => {
-
-      addCommunityStyles();
-
-      createPeopleSection();
-
-      renderFeed();
-
-    }
+    renderFeed
   );
-
 } else {
-
-  addCommunityStyles();
-
-  createPeopleSection();
-
   renderFeed();
-
 }
