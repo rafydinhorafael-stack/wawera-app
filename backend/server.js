@@ -1120,6 +1120,401 @@ if (
 
       return;
     }
+  }  /* =========================
+     PERFIL DE UTILIZADOR
+     ========================= */
+
+  const profileMatch =
+    req.url.match(
+      /^\/api\/profile\/([^\/]+)$/
+    );
+
+  if (
+    req.method === "GET" &&
+    profileMatch
+  ) {
+    try {
+      const userId =
+        decodeURIComponent(
+          profileMatch[1]
+        );
+
+      if (!isUuid(userId)) {
+        sendJson(res, 400, {
+          success: false,
+          message: "ID de utilizador inválido."
+        });
+
+        return;
+      }
+
+      const result = await pool.query(
+        `
+        SELECT
+          u.id,
+          u.name,
+          u.email,
+          u.created_at,
+
+          (
+            SELECT COUNT(*)
+            FROM follows f
+            WHERE f.following_id = u.id
+          ) AS followers_count,
+
+          (
+            SELECT COUNT(*)
+            FROM follows f
+            WHERE f.follower_id = u.id
+          ) AS following_count
+
+        FROM users u
+        WHERE u.id = $1
+        LIMIT 1
+        `,
+        [userId]
+      );
+
+      if (result.rowCount === 0) {
+        sendJson(res, 404, {
+          success: false,
+          message: "Utilizador não encontrado."
+        });
+
+        return;
+      }
+
+      sendJson(res, 200, {
+        success: true,
+        profile: result.rows[0]
+      });
+
+      return;
+    } catch (error) {
+      console.error(
+        "Erro ao carregar perfil:",
+        error
+      );
+
+      sendJson(res, 500, {
+        success: false,
+        message:
+          "Não foi possível carregar o perfil."
+      });
+
+      return;
+    }
+  }
+
+
+  /* =========================
+     SEGUIR UTILIZADOR
+     ========================= */
+
+  if (
+    req.method === "POST" &&
+    req.url === "/api/follow"
+  ) {
+    try {
+      const {
+        follower_id,
+        following_id
+      } = await readBody(req);
+
+      if (
+        !isUuid(follower_id) ||
+        !isUuid(following_id)
+      ) {
+        sendJson(res, 400, {
+          success: false,
+          message: "ID de utilizador inválido."
+        });
+
+        return;
+      }
+
+      if (
+        follower_id === following_id
+      ) {
+        sendJson(res, 400, {
+          success: false,
+          message:
+            "Não podes seguir a tua própria conta."
+        });
+
+        return;
+      }
+
+      const users = await pool.query(
+        `
+        SELECT id
+        FROM users
+        WHERE id = $1
+           OR id = $2
+        `,
+        [
+          follower_id,
+          following_id
+        ]
+      );
+
+      if (users.rowCount < 2) {
+        sendJson(res, 404, {
+          success: false,
+          message:
+            "Utilizador não encontrado."
+        });
+
+        return;
+      }
+
+      await pool.query(
+        `
+        INSERT INTO follows
+        (
+          follower_id,
+          following_id
+        )
+        VALUES ($1, $2)
+        ON CONFLICT
+        (
+          follower_id,
+          following_id
+        )
+        DO NOTHING
+        `,
+        [
+          follower_id,
+          following_id
+        ]
+      );
+
+      sendJson(res, 200, {
+        success: true,
+        message:
+          "Agora estás a seguir este utilizador."
+      });
+
+      return;
+    } catch (error) {
+      console.error(
+        "Erro ao seguir utilizador:",
+        error
+      );
+
+      sendJson(res, 500, {
+        success: false,
+        message:
+          "Não foi possível seguir este utilizador."
+      });
+
+      return;
+    }
+  }
+
+
+  /* =========================
+     DEIXAR DE SEGUIR
+     ========================= */
+
+  const unfollowMatch =
+    req.url.match(
+      /^\/api\/follow\/([^\/]+)$/
+    );
+
+  if (
+    req.method === "DELETE" &&
+    unfollowMatch
+  ) {
+    try {
+      const followingId =
+        decodeURIComponent(
+          unfollowMatch[1]
+        );
+
+      const {
+        follower_id
+      } = await readBody(req);
+
+      if (
+        !isUuid(follower_id) ||
+        !isUuid(followingId)
+      ) {
+        sendJson(res, 400, {
+          success: false,
+          message: "ID de utilizador inválido."
+        });
+
+        return;
+      }
+
+      const result = await pool.query(
+        `
+        DELETE FROM follows
+        WHERE follower_id = $1
+        AND following_id = $2
+        `,
+        [
+          follower_id,
+          followingId
+        ]
+      );
+
+      sendJson(res, 200, {
+        success: true,
+        message:
+          result.rowCount > 0
+            ? "Deixaste de seguir este utilizador."
+            : "Não estavas a seguir este utilizador."
+      });
+
+      return;
+    } catch (error) {
+      console.error(
+        "Erro ao deixar de seguir:",
+        error
+      );
+
+      sendJson(res, 500, {
+        success: false,
+        message:
+          "Não foi possível deixar de seguir."
+      });
+
+      return;
+    }
+  }
+
+
+  /* =========================
+     LISTAR SEGUIDORES
+     ========================= */
+
+  const followersMatch =
+    req.url.match(
+      /^\/api\/profile\/([^\/]+)\/followers$/
+    );
+
+  if (
+    req.method === "GET" &&
+    followersMatch
+  ) {
+    try {
+      const userId =
+        decodeURIComponent(
+          followersMatch[1]
+        );
+
+      if (!isUuid(userId)) {
+        sendJson(res, 400, {
+          success: false,
+          message: "ID de utilizador inválido."
+        });
+
+        return;
+      }
+
+      const result = await pool.query(
+        `
+        SELECT
+          u.id,
+          u.name,
+          u.email
+        FROM follows f
+        JOIN users u
+          ON u.id = f.follower_id
+        WHERE f.following_id = $1
+        ORDER BY f.created_at DESC
+        `,
+        [userId]
+      );
+
+      sendJson(res, 200, {
+        success: true,
+        followers: result.rows
+      });
+
+      return;
+    } catch (error) {
+      console.error(
+        "Erro ao carregar seguidores:",
+        error
+      );
+
+      sendJson(res, 500, {
+        success: false,
+        message:
+          "Não foi possível carregar os seguidores."
+      });
+
+      return;
+    }
+  }
+
+
+  /* =========================
+     LISTAR A SEGUIR
+     ========================= */
+
+  const followingMatch =
+    req.url.match(
+      /^\/api\/profile\/([^\/]+)\/following$/
+    );
+
+  if (
+    req.method === "GET" &&
+    followingMatch
+  ) {
+    try {
+      const userId =
+        decodeURIComponent(
+          followingMatch[1]
+        );
+
+      if (!isUuid(userId)) {
+        sendJson(res, 400, {
+          success: false,
+          message: "ID de utilizador inválido."
+        });
+
+        return;
+      }
+
+      const result = await pool.query(
+        `
+        SELECT
+          u.id,
+          u.name,
+          u.email
+        FROM follows f
+        JOIN users u
+          ON u.id = f.following_id
+        WHERE f.follower_id = $1
+        ORDER BY f.created_at DESC
+        `,
+        [userId]
+      );
+
+      sendJson(res, 200, {
+        success: true,
+        following: result.rows
+      });
+
+      return;
+    } catch (error) {
+      console.error(
+        "Erro ao carregar pessoas seguidas:",
+        error
+      );
+
+      sendJson(res, 500, {
+        success: false,
+        message:
+          "Não foi possível carregar as pessoas seguidas."
+      });
+
+      return;
+    }
   }
 
   /* =========================
