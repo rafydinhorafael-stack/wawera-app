@@ -1602,6 +1602,34 @@ if (
     return;
   }
 }
+  // =========================
+// PÁGINA DE CURRÍCULO
+// =========================
+if (req.url === "/cv.html") {
+    const fs = require("fs");
+    const path = require("path");
+
+    const cvPath = path.join(__dirname, "cv.html");
+
+    fs.readFile(cvPath, "utf8", (error, data) => {
+        if (error) {
+            console.error("Erro ao carregar cv.html:", error);
+            res.writeHead(500, {
+                "Content-Type": "text/plain; charset=utf-8"
+            });
+            res.end("Erro ao carregar o currículo.");
+            return;
+        }
+
+        res.writeHead(200, {
+            "Content-Type": "text/html; charset=utf-8"
+        });
+
+        res.end(data);
+    });
+
+    return;
+}
 
   /* =========================
      ROTA NÃO ENCONTRADA
