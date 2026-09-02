@@ -1609,7 +1609,7 @@ if (req.url === "/cv.html") {
     const fs = require("fs");
     const path = require("path");
 
-    const cvPath = path.join(__dirname, "cv.html");
+  const cvPath = path.join(__dirname, "..", "cv.html");
 
     fs.readFile(cvPath, "utf8", (error, data) => {
         if (error) {
