@@ -3,6 +3,8 @@ const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
 const { Pool } = require("pg");
+const Stripe = require("stripe");
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const PORT = process.env.PORT || 3000;
 const FRONTEND_PATH = path.join(__dirname, "..", "index.html");
