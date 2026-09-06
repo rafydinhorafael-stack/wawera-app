@@ -28,9 +28,14 @@ async function initDatabase() {
       name TEXT NOT NULL,
       email TEXT NOT NULL UNIQUE,
       password TEXT NOT NULL,
+      cv_pro BOOLEAN NOT NULL DEFAULT FALSE,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )
   `);
+  await pool.query(`
+  ALTER TABLE users
+  ADD COLUMN IF NOT EXISTS cv_pro BOOLEAN NOT NULL DEFAULT FALSE
+`);
 
   await pool.query(`
     CREATE TABLE IF NOT EXISTS posts (
