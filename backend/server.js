@@ -130,6 +130,108 @@ function isUuid(value) {
 }
 
 const server = http.createServer(async (req, res) => {
+    /* =========================
+     STRIPE - CHECKOUT CV PRO
+  ========================= */
+  if (
+    req.method === "POST" &&
+    req.url === "/api/create-checkout-session"
+  ) {
+    try {
+      const { email } = await readBody(req);
+
+      const normalizedEmail = String(email || "")
+        .trim()
+        .toLowerCase();
+
+      if (!normalizedEmail) {
+        sendJson(res, 400, {
+          success: false,
+          message: "Email obrigatório."
+        });
+        return;
+      }
+
+      const userResult = await pool.query(
+        `
+        SELECT id, email, cv_pro
+        FROM users
+        WHERE email = $1
+        LIMIT 1
+        `,
+        [normalizedEmail]
+      );
+
+      if (userResult.rowCount === 0) {
+        sendJson(res, 404, {
+          success: false,
+          message: "Utilizador não encontrado."
+        });
+        return;
+      }
+
+      const user = userResult.rows[0];
+
+      if (user.cv_pro === true) {
+        sendJson(res, 400, {
+          success: false,
+          message: "O CV Pro já está desbloqueado."
+        });
+        return;
+      }
+
+      const priceId = process.env.STRIPE_PRICE_CV_PRO;
+
+      if (!priceId) {
+        sendJson(res, 500, {
+          success: false,
+          message: "Preço do CV Pro não configurado."
+        });
+        return;
+      }
+
+      const session = await stripe.checkout.sessions.create({
+        mode: "payment",
+
+        line_items: [
+          {
+            price: priceId,
+            quantity: 1
+          }
+        ],
+
+        customer_email: normalizedEmail,
+
+        metadata: {
+          user_id: user.id,
+          product: "cv_pro"
+        },
+
+        success_url:
+          "https://rafydinhorafael-stack.github.io/wawera-app/cv.html?payment=success",
+
+        cancel_url:
+          "https://rafydinhorafael-stack.github.io/wawera-app/cv.html?payment=cancelled"
+      });
+
+      sendJson(res, 200, {
+        success: true,
+        url: session.url
+      });
+
+      return;
+
+    } catch (error) {
+      console.error("Erro ao criar Checkout Stripe:", error);
+
+      sendJson(res, 500, {
+        success: false,
+        message: "Não foi possível iniciar o pagamento."
+      });
+
+      return;
+    }
+  }
   /* =========================
      FRONTEND
      ========================= */
