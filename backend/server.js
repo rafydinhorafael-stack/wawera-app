@@ -131,6 +131,90 @@ function isUuid(value) {
 
 const server = http.createServer(async (req, res) => {
     /* =========================
+     STRIPE - WEBHOOK CV PRO
+  ========================= */
+  if (
+    req.method === "POST" &&
+    req.url === "/api/stripe/webhook"
+  ) {
+    try {
+      const signature = req.headers["stripe-signature"];
+
+      if (!signature) {
+        res.writeHead(400);
+        res.end("Stripe signature ausente.");
+        return;
+      }
+
+      let rawBody = "";
+
+      req.on("data", (chunk) => {
+        rawBody += chunk;
+      });
+
+      req.on("end", async () => {
+        try {
+          const event = stripe.webhooks.constructEvent(
+            rawBody,
+            signature,
+            process.env.STRIPE_WEBHOOK_SECRET
+          );
+
+          if (event.type === "checkout.session.completed") {
+            const session = event.data.object;
+
+            if (
+              session.payment_status === "paid" &&
+              session.metadata &&
+              session.metadata.product === "cv_pro" &&
+              session.metadata.user_id
+            ) {
+              await pool.query(
+                `
+                UPDATE users
+                SET cv_pro = TRUE
+                WHERE id = $1
+                `,
+                [session.metadata.user_id]
+              );
+
+              console.log(
+                "CV Pro desbloqueado para utilizador:",
+                session.metadata.user_id
+              );
+            }
+          }
+
+          res.writeHead(200, {
+            "Content-Type": "application/json"
+          });
+
+          res.end(JSON.stringify({
+            received: true
+          }));
+
+        } catch (error) {
+          console.error(
+            "Erro ao validar webhook Stripe:",
+            error
+          );
+
+          res.writeHead(400);
+          res.end("Webhook inválido.");
+        }
+      });
+
+      return;
+
+    } catch (error) {
+      console.error("Erro no webhook Stripe:", error);
+
+      res.writeHead(500);
+      res.end("Erro interno.");
+      return;
+    }
+  }
+    /* =========================
      STRIPE - CHECKOUT CV PRO
   ========================= */
   if (
