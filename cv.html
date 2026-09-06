@@ -553,12 +553,41 @@ function loadCV() {
   }
 }
 
-function proMessage() {
+async function proMessage() {
+  try {
+    const email = document.getElementById("email").value.trim();
 
-  alert(
-    "Wawera CV Pro: o sistema de pagamento será ligado numa próxima etapa."
-  );
+    if (!email) {
+      alert("Por favor, preencha o seu email antes de desbloquear o CV Pro.");
+      return;
+    }
 
+    const response = await fetch(
+      "https://wawera-app.onrender.com/api/create-checkout-session",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: email
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      alert(data.message || "Não foi possível iniciar o pagamento.");
+      return;
+    }
+
+    window.location.href = data.url;
+
+  } catch (error) {
+    console.error("Erro ao iniciar pagamento:", error);
+    alert("Ocorreu um erro ao iniciar o pagamento.");
+  }
 }
 
 loadCV();
